@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+	<html>
+
+		<!-- ########################################################################################### -->
+		<!--                  List of all icons available by default in the framework.                   -->
+		<!-- The calling code of an icon can be copied by clicking on the corresponding copy paste icon. -->
+		<!--                        Double-clicking an icon displays its SVG code.                       -->
+		<!-- ########################################################################################### -->
+
+		<head>
+			<meta charset="utf-8" />
+			
+			<!-- Disable annoying native mobile behaviors -->
+			<meta name="viewport" content="width=device-width, initial-scale=1" />
+			<meta name="viewport" content="width=device-width, minimum-scale=1" />
+			<meta name="viewport" content="width=device-width, maximum-scale=1" />
+			<meta name="apple-mobile-web-app-capable" content="yes" />
+			<meta name=“viewport” content=”initial-scale=1, viewport-fit=cover”>
+			
+			<title>All icons</title>
+			
+			<!-- Style of the HTML page displayed during the framework loading, can be adapted as required. -->
+			<style>
+				
+				#main, #screen
+				{
+					position: absolute;
+					left: 0px;
+					right: 0px;
+					top: 0px;
+					bottom: 0px;
+					
+					overflow: hidden;
+					
+					margin: 0px;
+					padding: 0px;
+					
+					text-align: center;
+					font-family: Arial;
+				}
+				
+				#iconsList
+				{
+					margin: 0px;
+					padding: 0px;
+					position: absolute;
+					left: 0px;
+					right: 0px;
+					top: 0px;
+					bottom: 0px;
+					overflow: auto;
+				}
+				
+				#iconsList li
+				{
+					display: inline-block;
+					list-style-type: none;
+					margin-left: 5px;
+					margin-right: 5px;
+				}
+				
+			</style>
+			
+		</head>
+		
+		<!-- DOM root, the “main” id is required. -->
+		<body id="main">
+	
+			<!-- Main screen area, the “screen” id is required. -->
+			<div id="screen" >
+				<!-- Here you write the HTML you want for the loading screen. -->
+				<p>Loading...</p>
+			</div>
+			
+			<!-- Load the Loader that initializes the framework. -->
+			<script src='../Loader.js?token=0' ></script>
+			
+			<script type="text/javascript" >
+			
+				// You can declare some functions and global variables here.
+				var tabManager = null;
+	
+				// Loader instantiation
+				// The variable must be called “Loader”.
+				// The first parameter specifies the position of the styles folder. 
+				// The second parameter specifies the style to be loaded.
+				var Loader = new Loader('../../', 'Default');
+				//var Loader = new Loader('../../', 'Peguy');
+				//var Loader = new Loader('../../', 'TGCM');
+				
+				// Here we declare the additional static resources to be loaded by the Loader.
+				Loader.addComponent('../DevTools/css/codePopup.css', '../DevTools/js/CodePopup.js', 'codePopup');
+				
+				// Redefining the this.onload function
+				// It will be triggered when the framework and the additional resources declared above are loaded.
+				Loader.onload = function()
+				{ 
+					// Application code
+					// Usually a simple entry point
+					
+					notifCenter = new NotificationsManager();
+					document.getElementById('main').appendChild(notifCenter);
+					
+					//// Display all icons of the framework ////
+					
+					var iconsList = Loader.getAllSVG(150, 150);
+					
+					document.getElementById('screen').innerHTML = '<ul id="iconsList" ></ul>';
+					
+					for (var i = 0; i < iconsList.length; i++)
+					{
+						var item = new Component('<li><p id="icon" ></p><p><strong>File:</strong> ' + iconsList[i].getAttribute('file') + '<span id="copyIcon" ></span><br /><strong>Name:</strong> ' + iconsList[i].getAttribute('name') + '</p></li>');
+						item.getById('icon').appendChild(iconsList[i]);
+
+						var copyIcon = Loader.getSVG('icons', 'copy-paste-icon', 20, 20);
+						copyIcon.file = iconsList[i].getAttribute('file');
+						copyIcon.name = iconsList[i].getAttribute('name');
+						item.getById('copyIcon').appendChild(copyIcon);
+
+						// Copy the code which get the icon.
+						copyIcon.onClick = function()
+						{
+							dataManager.toClipboard("var newIcon = Loader.getSVG('" + this.file + "', '" + this.name + "', 20, 20);", 
+									function()
+									{
+										console.log("The code has been copied to the clipboard.");
+										
+										message = '<p style="text-align: left;" >'
+													+ "The code has been copied to the clipboard." 
+												+ '</p>';
+										
+										notifCenter.push(message, false);
+									}, 
+									function() { console.log("Copy failed."); });
+						};
+						
+						// Display the SVG code of the icon.
+						item.onDblClick = function()
+						{
+							var svgCode = this.getById('icon').innerHTML;
+							
+							svgCode = svgCode.replaceAll('<', '&lt;').replace('>', '&gt;');
+							svgCode = svgCode.replaceAll('\n', '<br />');
+							
+							var popup = new CodePopup("SVG code", svgCode);
+							document.getElementById('main').appendChild(popup);
+						};
+						
+						document.getElementById('iconsList').appendChild(item);
+					}
+				};
+				
+				// The framework is loaded when the HTML page hosting the application has finished loading.
+				window.onload = function() { Loader.load(); }; 
+	
+			</script>
+			
+		</body>
+	</html>

@@ -1,0 +1,39 @@
+.grid3
+{
+	position: absolute;
+	left: 0px;
+	right: 0px;
+	top: 0px;
+	bottom: 0px;
+}
+
+.grid3 .leftPanel, .grid3 .rightPanel, .grid3 .leftRightPanel, .grid3 .rightRightPanel
+{
+	position: absolute;
+	top: 0px;
+	bottom: 0px;
+}
+
+.grid3 .leftPanel
+{
+	left: 0px;
+	right: 67%;
+}
+
+.grid3 .rightPanel
+{
+	left: 33%;
+	right: 0px;
+}
+
+.grid3 .leftRightPanel
+{
+	left: 0px;
+	right: 50%;
+}
+
+.grid3 .rightRightPanel
+{
+	left: 50%;
+	right: 0px;
+}

@@ -1,0 +1,46 @@
+.grid5
+{
+	position: absolute;
+	left: 0px;
+	right: 0px;
+	top: 0px;
+	bottom: 0px;
+}
+
+.grid5 .leftPanel, .grid5 .rightPanel
+{
+	position: absolute;
+	top: 0px;
+	bottom: 0px;
+}
+
+.grid5 .leftPanel
+{
+	left: 0px;
+	right: calc(100% - 500px);
+}
+
+.grid5 .rightPanel
+{
+	left: 500px;
+	right: 0px;
+}
+
+.grid5 .topPanel, .grid5 .bottomPanel
+{
+	position: absolute;
+	left: 0px;
+	right: 0px;
+}
+
+.grid5 .topPanel
+{
+	top: 0px;
+	bottom: 50%;
+}
+
+.grid5 .bottomPanel
+{
+	top: 50%;
+	bottom: 0px;
+}

@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+	<html>
+
+		<!-- ###################################### -->
+		<!-- Demo and test area for GUI components. -->
+		<!-- ###################################### -->
+
+		<head>
+			<meta charset="utf-8" />
+			
+			<!-- Disable annoying native mobile behaviors -->
+			<meta name="viewport" content="width=device-width, initial-scale=1" />
+			<meta name="viewport" content="width=device-width, minimum-scale=1" />
+			<meta name="viewport" content="width=device-width, maximum-scale=1" />
+			<meta name="apple-mobile-web-app-capable" content="yes" />
+			<meta name=“viewport” content=”initial-scale=1, viewport-fit=cover”>
+			
+			<title>Interface demo</title>
+			
+			<!-- Style of the HTML page displayed during the framework loading, can be adapted as required. -->
+			<style>
+				
+				#main, #screen
+				{
+					position: absolute;
+					left: 0px;
+					right: 0px;
+					top: 0px;
+					bottom: 0px;
+					
+					overflow: hidden;
+					
+					margin: 0px;
+					padding: 0px;
+					
+					text-align: center;
+					font-family: Arial;
+                    
+                    background-color:   rgb(220, 220, 220);
+                    background-color:   rgb(40, 40, 40);
+				}
+				
+			</style>
+			
+		</head>
+		
+		<!-- DOM root, “main” id required. -->
+		<body id="main">
+	
+			<!-- Main screen area, the “screen” id is required. -->
+			<div id="screen">
+				<!-- Here you write the HTML you want for the loading screen. -->
+				<p>Loading...</p>
+			</div>
+			
+			<!-- Load the Loader that initializes the framework. -->
+			<script src='../Loader.js?token=0' ></script>
+			
+			<script type="text/javascript" >
+	
+				// You can declare some functions and global variables here.
+				// ...
+
+				// Loader instantiation
+				// The variable must be called “Loader”.
+				// The first parameter specifies the position of the styles folder. 
+				// The second parameter specifies the style to be loaded.
+				//var Loader = new Loader('../../', 'Default');
+				var Loader = new Loader('../../', 'Peguy');
+				
+				// Loading optional library modules.
+				//Loader.addModules(['kanban', 'contentEditable', 'math', 'charts', 'nodes', 'canvas2D']); // Liste de tous les modules disponibles
+				Loader.addModules(['kanban', 'nodes', 'canvas2D']);
+				
+				// Here we declare the additional static resources to be loaded by the Loader.
+				// Exemples : 
+				//Loader.addSVG('/path/image.svg', 'mySVGimage');
+				//Loader.addStyle('/path/styleSheet.css', 'myStyleSheet');
+				//Loader.addScript('/path/script.js', 'myScript');
+				//Loader.addComponent('/path/componentStyleSheet.css', '/path/componentScript.js', 'myComponent');
+				
+				// Redefining the this.onload function
+				// It will be triggered when the framework and the additional resources declared above are loaded.
+				Loader.onload = function()
+				{ 
+					// Application code
+					// Usually a simple entry point
+					
+					//// Hello world ! ////
+					
+					document.getElementById('screen').innerHTML = '';
+					console.log("Hello world!");
+					var initPopup = new InfoPopup('<p>Hello world!</p>');
+					document.getElementById('main').appendChild(initPopup);
+					
+					/////////////////////////
+					//// Menu contextuel ////
+					/////////////////////////
+					
+					/*
+					document.getElementById('main').onContextMenu.push(function($event)
+					{
+						Events.preventDefault($event);
+						var mousePosition = document.getElementById('main').mousePosition($event);
+						var contextMenu = ContextMenu(mousePosition.x, mousePosition.y);
+						
+						var openPopupItem = new MenuItem("Open info popup");
+						
+						openPopupItem.onAction = function()
+						{
+							var infoPopup = new InfoPopup('<p>This is an information popup.</p>');
+							document.getElementById('main').appendChild(infoPopup);
+						};
+						
+						contextMenu.addElement(openPopupItem);
+						
+						var parentItem = new MenuItem("Submenu");
+						contextMenu.addElement(parentItem);
+						
+						var childItem = new MenuItem("Open other info popup");
+						
+						childItem.onAction = function()
+						{
+							var infoPopup = new InfoPopup('<p>This is an other information popup.</p>');
+							document.getElementById('main').appendChild(infoPopup);
+						};
+						
+						parentItem.addElement(childItem);
+						
+						var item1 = new MenuItem("Item1");
+						parentItem.addElement(item1);
+						
+						var item2 = new MenuItem("Item2");
+						parentItem.addElement(item2);
+					});
+					//*/
+					
+					///////////////////////
+					//// Barre de menu ////
+					///////////////////////
+					
+					var menuBar = new MenuBar();
+					document.getElementById('main').appendChild(menuBar);
+					
+					//// Tests de popups ////
+					
+					var menuBarPopupTestItem = new MenuItem("Popup tests");
+					menuBar.addElement(menuBarPopupTestItem);
+					
+					// Popup d'information
+					
+					var menurBarOpenInfoPopupItem = new MenuItem("Open an information popup");
+					
+					menurBarOpenInfoPopupItem.onAction = function()
+					{
+						var infoPopup = new InfoPopup("<p>This is an information popup.</p>");
+						document.getElementById('main').appendChild(infoPopup);
+					};
+					
+					menuBarPopupTestItem.addElement(menurBarOpenInfoPopupItem);
+					
+					// Popup avec un calendrier
+					
+					var menurBarOpenPopupWithCalendarItem = new MenuItem("Open a popup with calendar");
+					
+					menurBarOpenPopupWithCalendarItem.onAction = function()
+					{
+						var calendarPopup = new InfoPopup('<div id="calendar" ></div>');
+						
+						var calendarForPopup = new Calendar();
+						calendarPopup.getById('calendar').appendChild(calendarForPopup);
+						
+						document.getElementById('main').appendChild(calendarPopup);
+					};
+					
+					menuBarPopupTestItem.addElement(menurBarOpenPopupWithCalendarItem);
+					
+					// Popup avec une combo box
+					
+					var menurBarOpenPopupWithComboBoxItem = new MenuItem("Open a popup with combo box");
+					
+					menurBarOpenPopupWithComboBoxItem.onAction = function()
+					{
+						var options = [ { value: "1", name: "Option 1" }, { value: "2", name: "Option 2" }, { value: "3", name: "Option 3" } ];
+						
+						var comboBoxPopup = new InfoPopup('<div id="combobox" ></div>');
+						
+						var comboBoxForPopup = new ComboBox('My combo box', options);
+						comboBoxPopup.getById('combobox').appendChild(comboBoxForPopup);
+						
+						document.getElementById('main').appendChild(comboBoxPopup);
+					};
+					
+					menuBarPopupTestItem.addElement(menurBarOpenPopupWithComboBoxItem);
+					
+					// Popup avec une auto-complétion
+					
+					var menurBarOpenPopupWithAutoCompleteItem = new MenuItem("Open a popup with auto complete");
+					
+					menurBarOpenPopupWithAutoCompleteItem.onAction = function()
+					{
+						var autoCompleteList = ['Amandine', 'Arthur', 'Dina', 'Myriam', 'Rivo', 'Vincent'];
+						
+						var autoCompletePopup = new InfoPopup('<div id="autoComplete" ></div>');
+						
+						var autoCompleteForPopup = new AutoComplete();
+						autoCompleteForPopup.setList(autoCompleteList);
+						autoCompletePopup.getById('autoComplete').appendChild(autoCompleteForPopup);
+						
+						document.getElementById('main').appendChild(autoCompletePopup);
+					};
+					
+					menuBarPopupTestItem.addElement(menurBarOpenPopupWithAutoCompleteItem);
+					
+					// Popup avec une auto-complétion clé/valeur
+					
+					var menurBarOpenPopupWithKeyValueAutoCompleteItem = new MenuItem("Open a popup with key value auto complete");
+					
+					menurBarOpenPopupWithKeyValueAutoCompleteItem.onAction = function()
+					{
+						var autoCompleteList = [ { key: 'amandine', value: 'Amandine' }, { key: 'arthur', value: 'Arthur' }, { key: 'dina', value: 'Dina' }, 
+												{ key: 'myriam', value: 'Myriam' }, { key: 'rivo', value: 'Rivo' }, { key: 'vincent', value: 'Vincent'} ];
+						
+						var autoCompletePopup = new InfoPopup('<div id="autoComplete" ></div>');
+						
+						var autoCompleteForPopup = new AutoCompleteKeyValue();
+						autoCompleteForPopup.setList(autoCompleteList);
+						autoCompletePopup.getById('autoComplete').appendChild(autoCompleteForPopup);
+						
+						document.getElementById('main').appendChild(autoCompletePopup);
+					};
+					
+					menuBarPopupTestItem.addElement(menurBarOpenPopupWithKeyValueAutoCompleteItem);
+					
+					// Popup avec un slider
+					
+					var menurBarOpenPopupWithSliderItem = new MenuItem("Open a popup with slider");
+					
+					menurBarOpenPopupWithSliderItem.onAction = function()
+					{
+						var sliderPopupHTML = '<div style="text-align: center;" >' 
+													+ '<h4>Slider</h4>'
+													+ '<div id="slider" style="width: 200px; margin: auto; margin-top: 20px; " ></div>'
+													+ '<table style="width: 250px; " >'
+														+ '<tr><td style="text-align: left;" >Min : </td><td id="min" style="text-align: right;" ></td></tr>'
+														+ '<tr><td style="text-align: left;" >Max : </td><td id="max" style="text-align: right;" ></td></tr>'
+														+ '<tr><td style="text-align: left;" >Current value : </td><td id="currentValue" style="text-align: right;" ></td></tr>'
+													+ '</table>'
+												+ '</div>';
+						
+						var sliderPopup = new InfoPopup(sliderPopupHTML);
+						
+						var sliderForPopup = new Slider(10, 200, 100);
+						sliderPopup.getById('slider').appendChild(sliderForPopup);
+						
+						sliderPopup.getById('min').innerHTML = sliderForPopup.getMin();
+						sliderPopup.getById('max').innerHTML = sliderForPopup.getMax();
+						
+						sliderForPopup.onChange = function($value)
+						{
+							sliderPopup.getById('currentValue').innerHTML = Math.round(100.0*$value)/100.0;
+						};
+						
+						document.getElementById('main').appendChild(sliderPopup);
+					};
+					
+					menuBarPopupTestItem.addElement(menurBarOpenPopupWithSliderItem);
+					
+					// Popup avec un switch
+					
+					var menurBarOpenPopupWithSwitchItem = new MenuItem("Open a popup with switch");
+					
+					menurBarOpenPopupWithSwitchItem.onAction = function()
+					{
+						var switchPopupHTML = '<div style="text-align: center;" >' 
+													+ '<h4>Switch</h4>'
+													+ '<div id="switch" style="width: 200px; margin: auto; margin-top: 20px; " ></div>'
+													+ '<table style="width: 250px; " >'
+														+ '<tr><td style="text-align: left;" >State : </td><td id="state" style="text-align: right;" ></td></tr>'
+													+ '</table>'
+												+ '</div>';
+						
+						var switchPopup = new InfoPopup(switchPopupHTML);
+						
+						var switchForPopup = new Switch(false);
+						switchPopup.getById('switch').appendChild(switchForPopup);
+						
+						switchPopup.getById('state').innerHTML = switchForPopup.isOn();
+						
+						switchForPopup.onChange = function($value)
+						{
+							switchPopup.getById('state').innerHTML = $value;
+						};
+						
+						document.getElementById('main').appendChild(switchPopup);
+					};
+					
+					menuBarPopupTestItem.addElement(menurBarOpenPopupWithSwitchItem);
+					
+					// Popup avec une barre de progression
+					
+					var menurBarOpenPopupWithProgressBarItem = new MenuItem("Open a popup with progress bar");
+					
+					menurBarOpenPopupWithProgressBarItem.onAction = function()
+					{
+						var progressBarPopup = new InfoPopup('<h4>Progress bar</h4><div id="progressBar" ></div>');
+						
+						var progressBarForPopup = new ProgressBar(0);
+						progressBarPopup.getById('progressBar').appendChild(progressBarForPopup);
+						
+						document.getElementById('main').appendChild(progressBarPopup);
+						
+						var progressBarValue = 0;
+						
+						var progressBarTimer = setInterval(function()
+						{
+							progressBarValue = progressBarValue + 2;
+							progressBarForPopup.setCurrentValue(progressBarValue);
+							
+							if (progressBarValue > 100)
+								clearTimeout(progressBarTimer);
+							
+						}, 20);
+					};
+					
+					menuBarPopupTestItem.addElement(menurBarOpenPopupWithProgressBarItem);
+					
+					// Popup avec une check box
+					
+					var menurBarOpenPopupWithCheckBoxItem = new MenuItem("Open a popup with check box");
+					
+					menurBarOpenPopupWithCheckBoxItem.onAction = function()
+					{
+						var checkBoxPopupHTML = '<div style="text-align: center;" >' 
+													+ '<h4>Check Box</h4>'
+													+ '<div id="checkBox" style="width: 250px; margin: auto; margin-top: 20px; " ></div>'
+												+ '</div>';
+						
+						var checkBoxPopup = new InfoPopup(checkBoxPopupHTML);
+						
+						var checkBoxForPopup = new InputCheckBox('checkBox', "This is a check box", false, false);
+						
+						checkBoxPopup.getById('checkBox').appendChild(checkBoxForPopup);
+						document.getElementById('main').appendChild(checkBoxPopup);
+					};
+					
+					menuBarPopupTestItem.addElement(menurBarOpenPopupWithCheckBoxItem);
+					
+					// Popup avec un input number
+					
+					var menurBarOpenPopupWithInputNumberItem = new MenuItem("Open a popup with number input");
+					
+					menurBarOpenPopupWithInputNumberItem.onAction = function()
+					{
+						var inputNumberPopupHTML = '<div style="text-align: center;" >' 
+													+ '<h4>Number input</h4>'
+													+ '<div id="inputNumber" style="width: 250px; margin: auto; margin-top: 20px; " ></div>'
+												+ '</div>';
+						
+						var inputNumberPopup = new InfoPopup(inputNumberPopupHTML);
+						
+						var inputNumberForPopup = new InputNumber('Enter number', '');
+						
+						inputNumberPopup.getById('inputNumber').appendChild(inputNumberForPopup);
+						document.getElementById('main').appendChild(inputNumberPopup);
+					};
+
+					// Popup avec une liste d'icônes clicables
+					
+					var menurBarOpenPopupWithIconsMenuItem = new MenuItem("Open a popup with icons menu");
+					
+					menurBarOpenPopupWithIconsMenuItem.onAction = function()
+					{
+						var iconsMenuParam = [ { name: "camera", iconFile: "icons", iconName: "camera-icon", toolTip: "Camera icon", action: function() { alert("Click on camera icon."); } }, 
+												{ name: "plus", iconFile: "icons", iconName: "plus-icon", toolTip: "Plus icon", action: function() { alert("Click on plus icon."); } }, 
+												{ name: "minus", iconFile: "icons", iconName: "minus-icon", toolTip: "Minus icon", action: function() { alert("Click on minus icon."); } } ];
+
+						var iconsMenu = IconsMenu(iconsMenuParam, 30);
+
+						var iconsMenuPopupHTML = '<div style="text-align: center;" >' 
+													+ '<h4>Icons menu</h4>'
+													+ '<div id="iconsMenu" style="width: 250px; margin: auto; margin-top: 20px; " ></div>'
+												+ '</div>';
+						
+						var iconsMenuPopup = new InfoPopup(iconsMenuPopupHTML);
+						
+						iconsMenuPopup.getById('iconsMenu').appendChild(iconsMenu);
+						document.getElementById('main').appendChild(iconsMenuPopup);
+					};
+					
+					menuBarPopupTestItem.addElement(menurBarOpenPopupWithIconsMenuItem);
+
+					// Popup avec une liste de boutons
+					
+					var menurBarOpenPopupWithButtonsMenuItem = new MenuItem("Open a popup with buttons menu");
+					
+					menurBarOpenPopupWithButtonsMenuItem.onAction = function()
+					{
+						var buttonsMenuParam = [ { name: "camera", toolTip: "Camera icon", action: function() { alert("Click on camera button."); } }, 
+												{ name: "plus", toolTip: "Plus icon", action: function() { alert("Click on plus button."); } }, 
+												{ name: "minus", toolTip: "Minus icon", action: function() { alert("Click on minus button."); } } ];
+
+						var buttonsMenu = ButtonsMenu(buttonsMenuParam);
+
+						var buttonsMenuPopupHTML = '<div style="text-align: center;" >' 
+													+ '<h4>Buttons menu</h4>'
+													+ '<div id="buttonsMenu" style="width: 250px; margin: auto; margin-top: 20px; " ></div>'
+												+ '</div>';
+						
+						var buttonsMenuPopup = new InfoPopup(buttonsMenuPopupHTML);
+						
+						buttonsMenuPopup.getById('buttonsMenu').appendChild(buttonsMenu);
+						document.getElementById('main').appendChild(buttonsMenuPopup);
+					};
+					
+					menuBarPopupTestItem.addElement(menurBarOpenPopupWithButtonsMenuItem);
+
+					// Popup avec un color picker
+					
+					var menurBarOpenPopupWithColorPickerItem = new MenuItem("Open a popup with color picker");
+					
+					menurBarOpenPopupWithColorPickerItem.onAction = function()
+					{
+						var colorPicker = new SelectColorPopup({ r: 255, g: 0, b: 0});
+						document.getElementById('main').appendChild(colorPicker);
+					};
+
+					menuBarPopupTestItem.addElement(menurBarOpenPopupWithColorPickerItem);
+					
+					//// Tests de fenêtres ////
+					
+					var menuBarFrameTestItem = new MenuItem("Frame tests");
+					menuBar.addElement(menuBarFrameTestItem);
+					
+					// Fenêtre vide
+					
+					var menuBarOpenEmptyFrame = new MenuItem("Open an empty frame");
+					
+					menuBarOpenEmptyFrame.onAction = function()
+					{
+						var frame = new Frame('', 'This is an empty frame');
+						frame.setPosition(500, 200);
+						frame.setDimensions(800, 600);
+					};
+					
+					menuBarFrameTestItem.addElement(menuBarOpenEmptyFrame);
+					
+					// Fenêtre avec système d'onglets
+					
+					var menuBarOpenTabManagerFrame = new MenuItem("Open a frame with tab manager");
+					
+					menuBarOpenTabManagerFrame.onAction = function()
+					{
+						var tabManager = new TabManager();
+						tabManager.setEditMode(true);
+						var tabIndex = 0;
+						
+						for (var i = 0; i < 6; i++)
+						{
+							var tabContent = new Component('<p>' + "Content of tab " + i + '</p>');
+							var tab = new Tab('<span>' + "Tab " + i + '</span>', tabContent);
+							tabManager.addTab(tab);
+							tabIndex = i;
+						}
+						
+						var frame = new Frame('', 'This is a frame with tab manager');
+						frame.setPosition(500, 200);
+						frame.setDimensions(800, 600);
+						frame.appendContent(tabManager);
+						
+						tabManager.onContextMenu = function($event)
+						{
+							Events.preventDefault($event);
+							var mousePosition = document.getElementById('main').mousePosition($event);
+							var tabContextMenu = new ContextMenu(mousePosition.x, mousePosition.y);
+							
+							var addTabItem = new MenuItem("Add new tab");
+							
+							addTabItem.onAction = function()
+							{
+								tabIndex++;
+								var tabContent = new Component('<p>' + "Content of tab " + tabIndex + '</p>');
+								var tab = new Tab('<span>' + "Tab " + tabIndex + '</span>', tabContent);
+								tabManager.addTab(tab);
+							};
+							
+							tabContextMenu.addElement(addTabItem);
+						};
+					};
+					
+					menuBarFrameTestItem.addElement(menuBarOpenTabManagerFrame);
+					
+					// Fenêtre avec un accordéon
+					
+					var menuBarOpenAccordionFrame = new MenuItem("Open a frame with accordion");
+					
+					menuBarOpenAccordionFrame.onAction = function()
+					{
+						var accordion = new Accordion(true);
+						
+						for (var i = 0; i < 5; i++)
+						{
+							var itemContent = new Component('<div>' + "Content of item " + i + '</div>');
+							var accordionItem = new AccordionItem('<span>' + "Item " + i + '</span>', itemContent);
+							accordion.addElement(accordionItem);
+						}
+						
+						var frame = new Frame('', 'This is a frame with accordion');
+						frame.setPosition(500, 200);
+						frame.setDimensions(800, 600);
+						frame.appendContent(accordion);
+					};
+					
+					menuBarFrameTestItem.addElement(menuBarOpenAccordionFrame);
+					
+					// Fenêtre avec une listBox
+					
+					var menuBarOpenListBoxFrame = new MenuItem("Open a frame with list box");
+					
+					menuBarOpenListBoxFrame.onAction = function()
+					{
+						var listBox = new ListBox();
+						listBox.setEditMode(true);
+						
+						for (var i = 0; i < 5; i++)
+						{
+							var listBoxItem = new ListItem('<span>' + "Item " + i + '</span>');
+							listBox.addElement(listBoxItem);
+						}
+						
+						var frame = new Frame('', 'This is a frame with list box');
+						frame.setPosition(500, 200);
+						frame.setDimensions(800, 600);
+						frame.appendContent(listBox);
+						
+						frame.onDropItems = function($event) { Events.emit('onDropDesktopItems', [$event]); };
+						
+						var onDropItems = function($desktopItems)
+						{
+							for (var i = 0; i < $desktopItems.length; i++)
+							{
+								var listBoxItem = new ListItem('<span>' + $desktopItems[i].getLabel() + '</span>');
+								listBox.addElement(listBoxItem);
+							}
+						};
+						
+						frame.connect('onGetSelectedDesktopItems', onDropItems);
+					};
+					
+					menuBarFrameTestItem.addElement(menuBarOpenListBoxFrame);
+					
+					// Fenêtre avec une radioList
+					
+					var menuBarOpenRadioListFrame = new MenuItem("Open a frame with radio list");
+					
+					menuBarOpenRadioListFrame.onAction = function()
+					{
+						var radioListOptions = [];
+						
+						for (var i = 0; i < 6; i++)
+							radioListOptions.push({ label: "Option " + i, value: i });
+						
+						var radioList = new RadioList('radioList', radioListOptions, 2, 2, false);
+						
+						var frame = new Frame('', 'This is a frame with radio list');
+						frame.setPosition(500, 200);
+						frame.setDimensions(390, 200);
+						frame.appendContent(radioList);
+					};
+					
+					menuBarFrameTestItem.addElement(menuBarOpenRadioListFrame);
+					
+					// Fenêtre avec une checkBoxList
+					
+					var menuBarOpenCheckBoxListFrame = new MenuItem("Open a frame with check box list");
+					
+					menuBarOpenCheckBoxListFrame.onAction = function()
+					{
+						var checkBoxListOptions = [];
+						
+						for (var i = 0; i < 6; i++)
+						{
+							var checked = false;
+							
+							if (i%2 === 0)
+								checked = true;
+							
+							checkBoxListOptions.push({ label: "Option " + i, name: i, checked: checked });
+						}
+						
+						var checkBoxList = new CheckBoxList('checkBoxList', checkBoxListOptions, 2, false);
+						
+						var frame = new Frame('', 'This is a frame with check box list');
+						frame.setPosition(500, 200);
+						frame.setDimensions(450, 200);
+						frame.appendContent(checkBoxList);
+					};
+					
+					menuBarFrameTestItem.addElement(menuBarOpenCheckBoxListFrame);
+					
+					// Fenêtre avec une scrollBox
+					
+					var menuBarOpenScrollPanelFrame = new MenuItem("Open a frame with scroll panel");
+					
+					menuBarOpenScrollPanelFrame.onAction = function()
+					{
+						var frameContentHTML = '<div style="position: absolute; left: 0px; right: 0px; top: 0px; bottom: 0px;" >'
+													+ '<div id="scrollPanel" style="position: absolute; left: 0px; right: 0px; top: 0px; bottom: 30px;" ></div>'
+													+ '<div style="position: absolute; left: 0px; right: 0px; bottom: 7px; text-align: center;" >'
+														+ '<a target="_blank" href="https://en.wikipedia.org/wiki/File:Mercator_projection_SW.jpg" title="World map from Wikipedia" >World map from Wikipedia</a>'
+													+ '</div>'
+												+ '</div>';
+						
+						var frameContent = Component(frameContentHTML);
+						
+						var scrollPanel = new ScrollPanel('<img src="Mercator_projection_SW.jpg" />');
+						scrollPanel.setModifier(true);
+						//scrollPanel.setLockWheel(true);
+						//scrollPanel.setReverse(false);
+						
+						frameContent.getById('scrollPanel').appendChild(scrollPanel);
+						
+						// https://en.wikipedia.org/wiki/File:Mercator_projection_SW.jpg
+						
+						var frame = new Frame('', 'This is a frame with scroll panel');
+						frame.setPosition(500, 200);
+						frame.setDimensions(800, 600);
+						frame.appendContent(frameContent);
+					};
+					
+					menuBarFrameTestItem.addElement(menuBarOpenScrollPanelFrame);
+					
+					// Fenêtre avec un système nodal
+					
+					var menuBarOpenNodesPanelFrame = new MenuItem("Open a frame with nodes panel");
+					
+					menuBarOpenNodesPanelFrame.onAction = function()
+					{
+						var nodeIndex = 0;
+						var groupIndex = 0;
+						
+						var nodesPanel = new NodesPanel(800, 600);
+						//nodesPanel.setDragModifier('alt');
+						
+						var frame = new Frame('', 'This is a frame with nodes panel');
+						frame.setPosition(500, 200);
+						frame.setDimensions(800, 600);
+						frame.appendContent(nodesPanel);
+						
+						frame.onResize = function()
+						{
+							nodesPanel.setDimensions(frame.getById('content').offsetWidth, frame.getById('content').offsetHeight);
+						};
+						
+						frame.onContextMenu = function($event)
+						{
+							Events.preventDefault($event);
+							var mousePosition = document.getElementById('main').mousePosition($event);
+							var nodesContextMenu = new ContextMenu(mousePosition.x, mousePosition.y);
+							
+							var addNodeItem = new MenuItem("Add new node");
+							
+							addNodeItem.onAction = function()
+							{
+								nodeIndex++;
+								var mousePosition = nodesPanel.getMousePosition($event);
+								var nodeItem = new NodeItem("Node " + nodeIndex, mousePosition.x, mousePosition.y);
+								nodeItem.onContextMenu = function() {};
+								nodesPanel.getDisplayedPanel().addNode(nodeItem);
+								var nodeInput1 = new NodeInput('input1', 'Input 1', 'text');
+								nodeItem.addInput(nodeInput1);
+								var nodeInput2 = new NodeInput('input2', 'Input 2', 'text');
+								nodeItem.addInput(nodeInput2);
+								var nodeInput3 = new NodeInput('input3', 'Input 3', 'text');
+								nodeItem.addInput(nodeInput3);
+								var nodeOutput1 = new NodeOutput('output1', 'Output 1', 'number', 0);
+								nodeItem.addOutput(nodeOutput1);
+								var nodeOutput2 = new NodeOutput('output2', 'Output 2', 'number', 0);
+								nodeItem.addOutput(nodeOutput2);
+							};
+							
+							nodesContextMenu.addElement(addNodeItem);
+							
+							var selectedNodes = nodesPanel.getSelected();
+							
+							if (selectedNodes.length > 1)
+							{
+								var groupNodesItem = new MenuItem("Group selected nodes");
+								
+								groupNodesItem.onAction = function()
+								{
+									groupIndex++;
+									var nodesGroup = new NodesGroup('Group ' + groupIndex, 0, 0, selectedNodes);
+									nodesPanel.getDisplayedPanel().addNode(nodesGroup);
+									
+									nodesGroup.onContextMenu = function($event)
+									{
+										Events.preventDefault($event);
+										var mousePosition = document.getElementById('main').mousePosition($event);
+										var groupContextMenu = new ContextMenu(mousePosition.x, mousePosition.y);
+										
+										var ungroupItem = new MenuItem("Ungroup");
+										
+										var group = this;
+										
+										ungroupItem.onAction = function() { group.ungroup(); };
+										groupContextMenu.addElement(ungroupItem);
+									};
+								};
+								
+								nodesContextMenu.addElement(groupNodesItem);
+							}
+						};
+					};
+					
+					menuBarFrameTestItem.addElement(menuBarOpenNodesPanelFrame);
+					
+					// Fenêtre avec un système de fichiers
+					
+					var menuBarOpenFileSystemFrame = new MenuItem("Open a frame with file system");
+					
+					menuBarOpenFileSystemFrame.onAction = function()
+					{
+						var folderIndex = 0;
+						var fileIndex = 0;
+						
+						var fileSystem = new FileSystem(false);
+						fileSystem.setEditMode(true);
+						
+						for (var i = 0; i < 5; i++)
+						{
+							var folderItem = new FolderItem('Folder ' + folderIndex, false);
+							fileSystem.addElement(folderItem);
+							
+							for (var j = 0; j < 5; j++)
+							{
+								var folderItem2 = new FolderItem('Folder ' + i + ', ' + j, false);
+								fileSystem.addElement(folderItem2);
+								
+								for (var k = 0; k < 10; k++)
+								{
+									var fileItem3 = new FileItem('File ' + i + ', ' + j + ', ' + k, false);
+									fileSystem.addElement(fileItem3);
+									fileSystem.deselectAll();
+									folderItem2.select();
+								}
+								
+								fileSystem.deselectAll();
+								folderItem.select();
+							}
+							
+							fileSystem.deselectAll();
+							
+							folderIndex++;
+						}
+						
+						var frame = new Frame('', 'This is a frame with file system');
+						frame.setPosition(500, 200);
+						frame.setDimensions(800, 600);
+						frame.appendContent(fileSystem);
+					};
+					
+					menuBarFrameTestItem.addElement(menuBarOpenFileSystemFrame);
+					
+					// Fenêtre avec un kanban
+					
+					var menuBarOpenKanbanFrame = new MenuItem("Open a frame with kanban");
+					
+					menuBarOpenKanbanFrame.onAction = function()
+					{
+						var columnIndex = 0;
+						var cardIndex = 0;
+						
+						var kanban = new Kanban(false);
+						kanban.setEditMode(true);
+						
+						for (var i = 0; i < 5; i++)
+						{
+							var kanbanColumn = new KanbanColumn('Column ' + columnIndex, false);
+							kanban.addColumn(kanbanColumn);
+							
+							for (var j = 0; j < 10; j++)
+							{
+								var kanbanCard = new KanbanCard('Card ' + cardIndex, false);
+								kanbanColumn.addCard(kanbanCard);
+								cardIndex++;
+							}
+							
+							columnIndex++;
+						}
+						
+						var frame = new Frame('', 'This is a frame with kanban');
+						frame.setPosition(500, 200);
+						frame.setDimensions(800, 600);
+						frame.appendContent(kanban);
+					};
+					
+					// Fenêtre avec une zone de dépôt de fichiers
+					
+					var menuBarOpenDropFilesZoneFrame = new MenuItem("Open a frame with drop files zone");
+					
+					menuBarOpenDropFilesZoneFrame.onAction = function()
+					{
+						var dropFilesZone = new DropFilesZone([]);
+						var frame = new Frame('', 'This is a frame with drop files zone');
+						frame.setPosition(500, 200);
+						frame.setDimensions(800, 600);
+						frame.appendContent(dropFilesZone);
+					};
+					
+					menuBarFrameTestItem.addElement(menuBarOpenDropFilesZoneFrame);
+					
+					//// Menus qui ne servent à rien à part occuper de la place ////
+					
+					var menuSeparator1 = new MenuSeparator();
+					menuBar.addElement(menuSeparator1);
+					
+					var menuBarItem1 = new MenuItem("Menu 1");
+					menuBar.addElement(menuBarItem1);
+					
+					var menuBarItem2 = new MenuItem("Menu 2");
+					menuBar.addElement(menuBarItem2);
+					
+					var menuBarItem3 = new MenuItem("Menu 3");
+					menuBar.addElement(menuBarItem3);
+					
+					var menuBarItem4 = new MenuItem("Menu 4");
+					menuBar.addElement(menuBarItem4);
+					
+					var menuBarItem5 = new MenuItem("Menu 5");
+					menuBar.addElement(menuBarItem5);
+					
+					var menuBarItem6 = new MenuItem("Menu 6");
+					menuBar.addElement(menuBarItem6);
+					
+					var menuBarItem7 = new MenuItem("Menu 7");
+					menuBar.addElement(menuBarItem7);
+					
+					var menuBarItem8 = new MenuItem("Menu 8");
+					menuBar.addElement(menuBarItem8);
+					
+					var menuBarItem9 = new MenuItem("Menu 9");
+					menuBar.addElement(menuBarItem9);
+					
+					//menuBarItem9.addElement(menuBarPopupTestItem);
+					
+					//////////
+					// Dock //
+					//////////
+					
+					var dock = new Dock();
+					dock.setZoomingMode(true);
+					dock.setHiddenMode(true);
+					dock.setEditMode(true);
+					document.getElementById('main').appendChild(dock);
+					
+					for (var i = 0; i < 25; i++)
+					{
+						var icon = Loader.getSVG('icons', 'file-icon', 100, 100);
+						
+						var isOpen = true;
+						
+						if (i%2 === 0)
+							isOpen = false;
+						
+						var dockItem = new DockItem("Item " + i, icon, isOpen);
+						dockItem.num = i;
+						
+						dockItem.onAction = function()
+						{
+							var infoPopup = new InfoPopup("<p>Hello! I am the item number " + this.num + " from the dock!</p>");
+							document.getElementById('main').appendChild(infoPopup);
+						};
+						
+						dockItem.onRemoveFromDock = function()
+						{
+							var infoPopup = new InfoPopup("<p>The item number " + this.num + " has been removed from the dock!</p>");
+							document.getElementById('main').appendChild(infoPopup);
+						};
+						
+						dock.addElement(dockItem);
+					}
+					
+					/////////////
+					// Desktop //
+					/////////////
+					
+					// Création et affichage de l'objet Desktop
+
+					var desktop = new Desktop();
+					desktop.setEditMode(true);
+					document.getElementById('main').appendChild(desktop);
+					
+					// Création et ajout d'icônes d'exemple au bureau
+
+					var desktopItemIndex = 0;
+					
+					for (var i = 0; i < 10; i++)
+					{
+						var icon = Loader.getSVG('icons', 'file-icon', 100, 100);
+						var desktopItem = new DesktopItem("Desktop item " + i, icon);
+						desktopItem.num = i;
+						
+						desktopItem.onAction = function()
+						{
+							var infoPopup = new InfoPopup("<p>Hello! I am the item number " + this.num + " from the desktop!</p>");
+							document.getElementById('main').appendChild(infoPopup);
+						};
+						
+						desktop.addElement(desktopItem);
+						desktopItemIndex++;
+					}
+					
+					// Ajout d'une action de création d'icône supplémentaire dans le menu contextuel
+
+					desktop.onContextMenu = function($event)
+					{
+						Events.preventDefault($event);
+						var mousePosition = document.getElementById('main').mousePosition($event);
+						var desktopContextMenu = new ContextMenu(mousePosition.x, mousePosition.y);
+						
+						var addDesktopItem = new MenuItem("Add new item");
+						
+						addDesktopItem.onAction = function()
+						{
+							var icon = Loader.getSVG('icons', 'file-icon', 100, 100);
+							var desktopItem = new DesktopItem("Desktop item " + desktopItemIndex, icon);
+							desktopItem.num = desktopItemIndex;
+							
+							desktopItem.onAction = function()
+							{
+								var infoPopup = new InfoPopup("<p>Hello! I am the item number " + this.num + " from the desktop!</p>");
+								document.getElementById('main').appendChild(infoPopup);
+							};
+
+							desktop.addElement(desktopItem);
+							desktopItemIndex++;
+						};
+						
+						desktopContextMenu.addElement(addDesktopItem);
+					};
+				};
+				
+				// The framework is loaded when the HTML page hosting the application has finished loading.
+				window.onload = function() { Loader.load(); }; 
+	
+			</script>
+			
+		</body>
+	</html>

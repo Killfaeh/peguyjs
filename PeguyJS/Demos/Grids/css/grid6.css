@@ -1,0 +1,58 @@
+.grid6
+{
+	position: absolute;
+	left: 0px;
+	right: 0px;
+	top: 0px;
+	bottom: 0px;
+}
+
+.grid6 .leftPanel, .grid6 .rightPanel
+{
+	position: absolute;
+	top: 0px;
+	bottom: 0px;
+}
+
+.grid6 .leftPanel
+{
+	left: 0px;
+	right: 500px;
+}
+
+.grid6 .rightPanel
+{
+	left: calc(100% - 500px);
+	right: 0px;
+}
+
+.grid6 .topPanel, .grid6 .bottomPanel, .grid6 .topBottomPanel, .grid6 .bottomBottomPanel
+{
+	position: absolute;
+	left: 0px;
+	right: 0px;
+}
+
+.grid6 .topPanel
+{
+	top: 0px;
+	bottom: 67%;
+}
+
+.grid6 .bottomPanel
+{
+	top: 33%;
+	bottom: 0px;
+}
+
+.grid6 .topBottomPanel
+{
+	top: 0px;
+	bottom: 50%;
+}
+
+.grid6 .bottomBottomPanel
+{
+	top: 50%;
+	bottom: 0px;
+}

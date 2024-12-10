@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+
+	<!-- ####################################### -->
+	<!-- Demo and test area for painting module. -->
+	<!-- ####################################### -->
+
+	<head>
+		<meta charset="utf-8" />
+		
+		<!-- Disable annoying native mobile behaviors -->
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="viewport" content="width=device-width, minimum-scale=1" />
+		<meta name="viewport" content="width=device-width, maximum-scale=1" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name=“viewport” content=”initial-scale=1, viewport-fit=cover”>
+		
+		<title>Painting interface</title>
+		
+		<!-- Style of the HTML page displayed during the framework loading, can be adapted as required. -->
+		<style>
+			
+			#main, #screen
+			{
+				position: absolute;
+				left: 0px;
+				right: 0px;
+				top: 0px;
+				bottom: 0px;
+				
+				overflow: hidden;
+				
+				margin: 0px;
+				padding: 0px;
+				
+				text-align: center;
+				font-family: Arial;
+                   
+                background-color:   rgb(220, 220, 220);
+			}
+			
+		</style>
+		
+	</head>
+	
+	<!-- DOM root, “main” id required. -->
+	<body id="main">
+
+		<!-- Main screen area, the “screen” id is required. -->
+		<div id="screen">
+			<!-- Here you write the HTML you want for the loading screen. -->
+			<p>Loading...</p>
+		</div>
+		
+		<!-- Load the Loader that initializes the framework. -->
+		<script src='../Loader.js?token=0' ></script>
+		
+		<script>
+
+			// You can declare some functions and global variables here.
+            var canvas;
+            var cursor;
+			var imgSize = 2000;
+            var mouseDown = false;
+
+            var updateCanvas = function($event)
+            {
+                var x = Events.mouseX - canvas.position()['x'];
+                var y = Events.mouseY - canvas.position()['y'];
+
+                cursor.setX(x);
+                cursor.setY(y);
+
+                var pointerProperties = 
+                {
+                    id: $event.pointerId,
+                    width: $event.width,
+                    height: $event.height,
+                    pressure: $event.pressure,
+                    tangentialPressure : $event.tangentialPressure,
+                    tiltX: $event.tiltX,
+                    tiltY: $event.titltY,
+                    twist: $event.twist,
+                    pointerType: $event.pointerType,
+                    isPrimary: $event.isprimary
+                };
+
+                console.log(pointerProperties);
+
+                cursor.setRadius(5+$event.pressure*40);
+
+                canvas.render();
+            };
+
+			// Loader instantiation
+			// The variable must be called “Loader”.
+			// The first parameter specifies the position of the styles folder. 
+			// The second parameter specifies the style to be loaded.
+			var Loader = new Loader('../../', 'Default');
+			
+			// Loading optional library modules.
+			Loader.addModules(['math', 'canvas2D']);
+			
+			// Redefining the this.onload function
+			// It will be triggered when the framework and the additional resources declared above are loaded.
+			Loader.onload = function()
+			{
+				// Application code
+				// Usually a simple entry point
+
+				document.getElementById('screen').empty();
+
+				canvas = new Canvas2D(800, 600);
+
+				document.getElementById('screen').append(canvas);
+
+				//var gradient = new LinearGradient2D(colors, 0, 0, 0, imgSize);
+				var rect = new Rect2D(0, 0, 800, 600);
+				rect.setFillStyle("rgb(255, 255, 255)");
+
+                cursor = new Circle2D(100, 100, 20);
+                cursor.setFillStyle(null);
+                cursor.setStrokeStyle("rgb(255, 0, 0)");
+                cursor.setLineWidth(2);
+
+				//canvas.addObject(gradient);
+				canvas.addObject(rect);
+                canvas.addObject(cursor);
+
+				canvas.render();
+
+                canvas.onMouseDown = function($event)
+                {
+                    mouseDown = true;
+                    updateCanvas($event);
+                };
+
+                canvas.onPointerDown = function($event)
+                {
+                    mouseDown = true;
+                    updateCanvas($event);
+                };
+
+                document.getElementById('main').onMouseUp.push(function ($event) { mouseDown = false; });
+                document.getElementById('main').onPointerUp.push(function ($event) { mouseDown = false; });
+
+                document.getElementById('main').onMouseMove.push(function ($event)
+                {
+                    if (mouseDown === true)
+                    {
+                        updateCanvas($event);
+                    }
+                });
+
+                document.getElementById('main').onPointerMove.push(function ($event)
+                {
+                    if (mouseDown === true)
+                    {
+                        updateCanvas($event);
+                    }
+                });
+			}; 
+			
+			// The framework is loaded when the HTML page hosting the application has finished loading.
+			window.onload = function() { Loader.load(); }; 
+
+		</script>
+		
+	</body>
+</html>

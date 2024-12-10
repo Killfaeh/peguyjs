@@ -1,0 +1,27 @@
+.grid1
+{
+	position: absolute;
+	left: 0px;
+	right: 0px;
+	top: 0px;
+	bottom: 0px;
+}
+
+.grid1 .leftPanel, .grid1 .rightPanel
+{
+	position: absolute;
+	top: 0px;
+	bottom: 0px;
+}
+
+.grid1 .leftPanel
+{
+	left: 0px;
+	right: 50%;
+}
+
+.grid1 .rightPanel
+{
+	left: 50%;
+	right: 0px;
+}

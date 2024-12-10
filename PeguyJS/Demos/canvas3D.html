@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+	<html>
+
+		<!-- ############################################ -->
+		<!-- Demo and test area for 3D Canvas components. -->
+		<!-- ############################################ -->
+
+		<head>
+			<meta charset="utf-8" />
+			
+			<!-- Disable annoying native mobile behaviors -->
+			<meta name="viewport" content="width=device-width, initial-scale=1" />
+			<meta name="viewport" content="width=device-width, minimum-scale=1" />
+			<meta name="viewport" content="width=device-width, maximum-scale=1" />
+			<meta name="apple-mobile-web-app-capable" content="yes" />
+			<meta name=“viewport” content=”initial-scale=1, viewport-fit=cover”>
+			
+			<title>Canvas 3D</title>
+			
+			<!-- Style of the HTML page displayed during the framework loading, can be adapted as required. -->
+			<style>
+				
+				#main, #screen
+				{
+					position: absolute;
+					left: 0px;
+					right: 0px;
+					top: 0px;
+					bottom: 0px;
+					
+					overflow: hidden;
+					
+					margin: 0px;
+					padding: 0px;
+					
+					text-align: center;
+					font-family: Arial;
+					
+					background-color: rgb(255, 255, 255);
+				}
+				
+				canvas
+				{
+					border: 1px rgb(0, 0, 0) solid;
+				}
+				
+			</style>
+			
+		</head>
+		
+		<!-- DOM root, “main” id required. -->
+		<body id="main">
+	
+			<!-- Main screen area, the “screen” id is required. -->
+			<div id="screen" >
+				<!-- Here you write the HTML you want for the loading screen. -->
+				<p>Loading...</p>
+			</div>
+			
+			<!-- Load the Loader that initializes the framework. -->
+			<script src='../Loader.js?token=0' ></script>
+			
+			<script type="text/javascript" >
+
+				// You can declare some functions and global variables here.
+				// ...
+
+				// Loader instantiation
+				// The variable must be called “Loader”.
+				// The first parameter specifies the position of the styles folder. 
+				// The second parameter specifies the style to be loaded.
+				var Loader = new Loader('../../', 'Default');
+				
+				// Loading optional library modules.
+				Loader.addModules(['canvas3D']);
+
+				// Here we declare the additional static resources to be loaded by the Loader.
+				Loader.addScript('canvas3D/demo01.js', 'demo01');
+				
+				// Redefining the this.onload function
+				// It will be triggered when the framework and the additional resources declared above are loaded.
+				Loader.onload = function()
+				{ 
+					// Application code
+					// Usually a simple entry point
+					
+					//// Display the 3D canvas. ////
+					
+					document.getElementById('screen').removeAllChildren();
+					
+					var demo01 = new Demo01();
+					document.getElementById('screen').appendChild(demo01);
+					demo01.resize();
+
+					Events.onResize = function()
+					{
+						demo01.resize();
+					};
+				};
+				
+				// The framework is loaded when the HTML page hosting the application has finished loading.
+				window.onload = function() { Loader.load(); }; 
+	
+			</script>
+			
+		</body>
+	</html>

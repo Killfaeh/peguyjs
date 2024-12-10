@@ -1,0 +1,58 @@
+.grid7
+{
+	position: absolute;
+	left: 0px;
+	right: 0px;
+	top: 0px;
+	bottom: 0px;
+}
+
+.grid7 .leftPanel, .grid7 .rightPanel
+{
+	position: absolute;
+	top: 0px;
+	bottom: 0px;
+}
+
+.grid7 .leftPanel
+{
+	left: 0px;
+	right: calc(100% - 500px);
+}
+
+.grid7 .rightPanel
+{
+	left: 500px;
+	right: 0px;
+}
+
+.grid7 .topPanel, .grid7 .bottomPanel, .grid7 .topBottomPanel, .grid7 .bottomBottomPanel
+{
+	position: absolute;
+	left: 0px;
+	right: 0px;
+}
+
+.grid7 .topPanel
+{
+	top: 0px;
+	bottom: 67%;
+}
+
+.grid7 .bottomPanel
+{
+	top: 33%;
+	bottom: 0px;
+}
+
+.grid7 .topBottomPanel
+{
+	top: 0px;
+	bottom: 50%;
+}
+
+.grid7 .bottomBottomPanel
+{
+	top: 50%;
+	bottom: 0px;
+}

@@ -1,0 +1,46 @@
+.grid4
+{
+	position: absolute;
+	left: 0px;
+	right: 0px;
+	top: 0px;
+	bottom: 0px;
+}
+
+.grid4 .leftPanel, .grid4 .rightPanel
+{
+	position: absolute;
+	top: 0px;
+	bottom: 0px;
+}
+
+.grid4 .leftPanel
+{
+	left: 0px;
+	right: 500px;
+}
+
+.grid4 .rightPanel
+{
+	left: calc(100% - 500px);
+	right: 0px;
+}
+
+.grid4 .topPanel, .grid4 .bottomPanel
+{
+	position: absolute;
+	left: 0px;
+	right: 0px;
+}
+
+.grid4 .topPanel
+{
+	top: 0px;
+	bottom: 50%;
+}
+
+.grid4 .bottomPanel
+{
+	top: 50%;
+	bottom: 0px;
+}
