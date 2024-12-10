@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+	<html>
+
+		<!-- #################################################### -->
+		<!-- Tool to generate components base code automatically. -->
+		<!-- #################################################### -->
+	
+		<head id="head" >
+			<meta charset="utf-8" />
+			
+			<!-- Disable annoying native mobile behaviors -->
+			<meta name="viewport" content="width=device-width, initial-scale=1" />
+			<meta name="viewport" content="width=device-width, minimum-scale=1" />
+			<meta name="viewport" content="width=device-width, maximum-scale=1" />
+			<meta name="apple-mobile-web-app-capable" content="yes" />
+			<meta name=“viewport” content=”initial-scale=1, viewport-fit=cover”>
+			
+			<title>Dev tools</title>
+			
+			<!-- Style of the HTML page displayed during the framework loading, can be adapted as required. -->
+			<style>
+				
+				#main, #screen
+				{
+					position: absolute;
+					left: 0px;
+					right: 0px;
+					top: 0px;
+					bottom: 0px;
+					
+					overflow: hidden;
+					
+					margin: 0px;
+					padding: 0px;
+					
+					text-align: center;
+					font-family: Arial;
+				}
+				
+			</style>
+			
+		</head>
+		
+		<!-- DOM root, “main” id required. -->
+		<body id="main">
+	
+			<!-- Main screen area, the “screen” id is required. -->
+			<div id="screen">
+				<!-- Here you write the HTML you want for the loading screen. -->
+				<p>Loading...</p>
+			</div>
+			
+			<!-- Load the Loader that initializes the framework. -->
+			<script src='../Loader.js?token=0' ></script>
+			
+			<script type="text/javascript" >
+	
+				// You can declare some functions and global variables here.
+				var tabManager;
+	
+				var loadFiles = function($fileList)
+				{
+					for (var i = 0; i < $fileList.length; i++)
+					{
+						var data = $fileList[i].data;
+						
+						if ($fileList[i].type === 'application/json')
+						{
+							var jsonObject = JSON.parse(data);
+							
+							if (utils.isset(jsonObject.type))
+							{
+								if (jsonObject.type === 'basicClass' || jsonObject.type === 'emptyClass')
+								{
+									var createClassPanel = new CreateClassPanel();
+									createClassPanel.loadFromJSON(jsonObject);
+									var tab = new Tab('<span>' + $fileList[i].name + '</span>', createClassPanel);
+									tabManager.addTab(tab);
+								}
+								else if (jsonObject.type === 'guiComponent')
+								{
+									var createClassPanel = new CreateGUIComponentPanel();
+									createClassPanel.loadFromJSON(jsonObject);
+									var tab = new Tab('<span>' + $fileList[i].name + '</span>', createClassPanel);
+									tabManager.addTab(tab);
+								}
+								else if (jsonObject.type === 'formPanel')
+								{
+									var createFormPanel = new CreateFormPanel();
+									createFormPanel.loadFromJSON(jsonObject);
+									var tab = new Tab('<span>' + $fileList[i].name + '</span>', createFormPanel);
+									tabManager.addTab(tab);
+								}
+								else if (jsonObject.type === 'canvas2dClass')
+								{
+									var createClassPanel = new CreateCanvas2DClassPanel();
+									createClassPanel.loadFromJSON(jsonObject);
+									var tab = new Tab('<span>' + $fileList[i].name + '</span>', createClassPanel);
+									tabManager.addTab(tab);
+								}
+								else if (jsonObject.type === 'htmlPage')
+								{
+									var createClassPanel = new CreateHTMLPanel();
+									createClassPanel.loadFromJSON(jsonObject);
+									var tab = new Tab('<span>' + $fileList[i].name + '</span>', createClassPanel);
+									tabManager.addTab(tab);
+								}
+							}
+						}
+						else if ($fileList[i].type === 'text/html' || $fileList[i].type === 'image/svg+xml')
+						{
+							var createClassPanel = new CreateHTMLPanel();
+							createClassPanel.loadFromHTML(data);
+							var tab = new Tab('<span>' + $fileList[i].name + '</span>', createClassPanel);
+							tabManager.addTab(tab);
+						}
+						else if ($fileList[i].type === 'text/css')
+						{
+							// Pour associer une feuille de style à une page HTML déjà chargée
+						}
+					}
+				};
+	
+				var onDropFile = function($event)
+				{
+					Files.accept = ['application/json', 'text/html', 'image/svg+xml', 'text/css'];
+					Files.drop($event, function($files) { loadFiles($files); });
+				};
+	
+				// Loader instantiation
+				// The variable must be called “Loader”.
+				// The first parameter specifies the position of the styles folder. 
+				// The second parameter specifies the style to be loaded.
+				var Loader = new Loader('../../', 'Default');
+				
+				// Loading optional library modules.
+				//Loader.addModules(['kanban', 'contentEditable', 'math', 'charts', 'nodes', 'canvas2D']); // Liste de tous les modules disponibles
+				Loader.addModules(['kanban', 'nodes', 'canvas2D']);
+				
+				// Here we declare the additional static resources to be loaded by the Loader.
+				Loader.addScript('js/AttributeInput.js', 'attributeInput');
+				Loader.addScript('js/Attribute2DInput.js', 'attribute2DInput');
+				Loader.addScript('js/MethodInput.js', 'methodInput');
+				Loader.addScript('js/FieldInput.js', 'fieldInput');
+				Loader.addScript('js/HTMLnodeItem.js', 'htmlNodeItem');
+				Loader.addScript('js/HTMLattributesPanel.js', 'htmlAttributesPanel');
+				Loader.addScript('js/CSSpropertiesPanel.js', 'cssPropertiesPanel');
+				Loader.addScript('js/CreateHTMLnodePopup.js', 'createHTMLnodePopup');
+				Loader.addScript('js/HTMLattributeInput.js', 'htmlAttributeInput');
+				Loader.addComponent('css/createClassPanel.css', 'js/CreateClassPanel.js', 'createClassPanel');
+				Loader.addComponent('css/createGUIComponentPanel.css', 'js/CreateGUIComponentPanel.js', 'createGUIComponentPanel');
+				Loader.addComponent('css/createFormPanel.css', 'js/CreateFormPanel.js', 'createFormPanel');
+				Loader.addComponent('css/createCanvas2DClassPanel.css', 'js/CreateCanvas2DClassPanel.js', 'createCanvas2DClassPanel');
+				Loader.addComponent('css/createHTMLPanel.css', 'js/CreateHTMLPanel.js', 'createHTMLPanel');
+				Loader.addComponent('css/codePopup.css', 'js/CodePopup.js', 'codePopup');
+				Loader.addComponent('css/htmlCodePopup.css', 'js/HTMLcodePopup.js', 'htmlCodePopup');
+				Loader.addComponent('css/componentCodePopup.css', 'js/ComponentCodePopup.js', 'componentCodePopup');
+				
+				// Redefining the this.onload function
+				// It will be triggered when the framework and the additional resources declared above are loaded.
+				Loader.onload = function()
+				{ 
+					// Application code
+					// Usually a simple entry point
+					
+					document.getElementById('main').onDrop = function($event) { onDropFile($event); };
+					
+					document.getElementById('screen').innerHTML = '';
+					
+					notifCenter = new NotificationsManager();
+					document.getElementById('main').appendChild(notifCenter);
+					
+					//////////////
+					//// Tabs ////
+					//////////////
+					
+					tabManager = new TabManager();
+					tabManager.setEditMode(true);
+					document.getElementById('main').appendChild(tabManager);
+					tabManager.style.top = '34px';
+					tabManager.focus();
+					
+					//////////////////
+					//// Menu bar ////
+					//////////////////
+					
+					var menuBar = new MenuBar();
+					document.getElementById('main').appendChild(menuBar);
+					
+					//// File ////
+					
+					var menuBarFileItem = new MenuItem("File");
+					menuBar.addElement(menuBarFileItem);
+					
+					var menuBarNewItem = new MenuItem("New...");
+					menuBarFileItem.addElement(menuBarNewItem);
+
+					// Create empty class
+					
+					var menurBarCreateClassItem = new MenuItem("Basic class");
+					
+					menurBarCreateClassItem.onAction = function()
+					{
+						var createClassPanel = new CreateClassPanel();
+						var tab = new Tab('<span>' + "New basic class" + '</span>', createClassPanel);
+						tabManager.addTab(tab);
+						createClassPanel.getById('classNameInput').focus();
+					};
+					
+					menuBarNewItem.addElement(menurBarCreateClassItem);
+					
+					// Create GUI component
+					
+					var menurBarCreateGUIComponentItem = new MenuItem("GUI component");
+					
+					menurBarCreateGUIComponentItem.onAction = function()
+					{
+						var createClassPanel = new CreateGUIComponentPanel();
+						var tab = new Tab('<span>' + "New GUI component" + '</span>', createClassPanel);
+						tabManager.addTab(tab);
+						createClassPanel.getById('classNameInput').focus();
+					};
+					
+					menuBarNewItem.addElement(menurBarCreateGUIComponentItem);
+
+					// Create form panel
+					
+					var menurBarCreateFormItem = new MenuItem("Form panel");
+					
+					menurBarCreateFormItem.onAction = function()
+					{
+						var createFormPanel = new CreateFormPanel();
+						var tab = new Tab('<span>' + "New form panel" + '</span>', createFormPanel);
+						tabManager.addTab(tab);
+						createFormPanel.getById('classNameInput').focus();
+					};
+					
+					menuBarNewItem.addElement(menurBarCreateFormItem);
+					
+					// Create Canvas 2D component
+					
+					var menurBarCreate2DCanvasComponentItem = new MenuItem("2D canvas component");
+					
+					menurBarCreate2DCanvasComponentItem.onAction = function()
+					{
+						var createClassPanel = new CreateCanvas2DClassPanel();
+						var tab = new Tab('<span>' + "New canvas 2D class" + '</span>', createClassPanel);
+						tabManager.addTab(tab);
+						createClassPanel.getById('classNameInput').focus();
+					};
+					
+					menuBarNewItem.addElement(menurBarCreate2DCanvasComponentItem);
+					
+					// Create HTML page
+					
+					var menurBarCreateHTMLPageItem = new MenuItem("HTML page");
+					
+					menurBarCreateHTMLPageItem.onAction = function()
+					{
+						var createHTMLPanel = new CreateHTMLPanel();
+						var tab = new Tab('<span>' + "New HTML page" + '</span>', createHTMLPanel);
+						tabManager.addTab(tab);
+					};
+					
+					menuBarNewItem.addElement(menurBarCreateHTMLPageItem);
+				};
+				
+				// The framework is loaded when the HTML page hosting the application has finished loading.
+				window.onload = function() { Loader.load(); }; 
+	
+			</script>
+			
+		</body>
+	</html>

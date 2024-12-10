@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+
+	<!-- ############################################################ -->
+	<!-- Table for quick copying and pasting of standard code blocks. -->
+	<!-- ############################################################ -->
+
+	<html>
+		<head id="head" >
+			<meta charset="utf-8" />
+			
+			<!-- Disable annoying native mobile behaviors -->
+			<meta name="viewport" content="width=device-width, initial-scale=1" />
+			<meta name="viewport" content="width=device-width, minimum-scale=1" />
+			<meta name="viewport" content="width=device-width, maximum-scale=1" />
+			<meta name="apple-mobile-web-app-capable" content="yes" />
+			<meta name=“viewport” content=”initial-scale=1, viewport-fit=cover”>
+			
+			<title>Quick code</title>
+			
+			<!-- Style of the HTML page displayed during the framework loading, can be adapted as required. -->
+			<style>
+				
+				#main, #screen
+				{
+					position: absolute;
+					left: 0px;
+					right: 0px;
+					top: 0px;
+					bottom: 0px;
+					
+					overflow: hidden;
+					
+					margin: 0px;
+					padding: 0px;
+					
+					text-align: center;
+					font-family: Arial;
+				}
+				
+				.quickCodePanel
+				{
+					position: absolute;
+					left: 0px;
+					right: 0px;
+					top: 0px;
+					bottom: 0px;
+					
+					overflow: auto;
+				}
+				
+				.quickCodePanel table
+				{
+					border-collapse: collapse;
+				}
+				
+				.quickCodePanel th,
+				.quickCodePanel td
+				{
+					padding: 10px;
+					border: 1px solid rgb(223, 223, 223);
+				}
+				
+				.quickCodePanel td pre
+				{
+					text-align: left;
+					margin: 0px;
+					padding: 0px;
+				}
+				
+			</style>
+			
+		</head>
+		
+		<!-- DOM root, “main” id required. -->
+		<body id="main">
+	
+			<!-- Main screen area, the “screen” id is required. -->
+			<div id="screen">
+				<!-- Here you write the HTML you want for the loading screen. -->
+				<p>Loading...</p>
+			</div>
+			
+			<!-- Load the Loader that initializes the framework. -->
+			<script src='../Loader.js?token=0' ></script>
+			
+			<script type="text/javascript" >
+	
+				// You can declare some functions and global variables here.
+				var tabManager;
+	
+				var loadFiles = function($fileList)
+				{
+					for (var i = 0; i < $fileList.length; i++)
+					{
+						var data = $fileList[i].data;
+						
+						if ($fileList[i].type === 'application/json')
+						{
+							var jsonObject = JSON.parse(data);
+							
+							if (utils.isset(jsonObject.type))
+							{
+								if (jsonObject.type === 'basicClass' || jsonObject.type === 'emptyClass')
+								{
+									var createClassPanel = new CreateClassPanel();
+									createClassPanel.loadFromJSON(jsonObject);
+									var tab = new Tab('<span>' + $fileList[i].name + '</span>', createClassPanel);
+									tabManager.addTab(tab);
+								}
+								else if (jsonObject.type === 'canvas2dClass')
+								{
+									var createClassPanel = new CreateCanvas2DClassPanel();
+									createClassPanel.loadFromJSON(jsonObject);
+									var tab = new Tab('<span>' + $fileList[i].name + '</span>', createClassPanel);
+									tabManager.addTab(tab);
+								}
+								else if (jsonObject.type === 'htmlPage')
+								{
+									var createClassPanel = new CreateHTMLPanel();
+									createClassPanel.loadFromJSON(jsonObject);
+									var tab = new Tab('<span>' + $fileList[i].name + '</span>', createClassPanel);
+									tabManager.addTab(tab);
+								}
+							}
+						}
+						else if ($fileList[i].type === 'text/html' || $fileList[i].type === 'image/svg+xml')
+						{
+							var createClassPanel = new CreateHTMLPanel();
+							createClassPanel.loadFromHTML(data);
+							var tab = new Tab('<span>' + $fileList[i].name + '</span>', createClassPanel);
+							tabManager.addTab(tab);
+						}
+						else if ($fileList[i].type === 'text/css')
+						{
+							// Pour associer une feuille de style à une page HTML déjà chargée
+						}
+					}
+				};
+	
+				var onDropFile = function($event)
+				{
+					Files.accept = ['application/json', 'text/html', 'image/svg+xml', 'text/css'];
+					Files.drop($event, function($files) { loadFiles($files); });
+				};
+	
+				// Loader instantiation
+				// The variable must be called “Loader”.
+				// The first parameter specifies the position of the styles folder. 
+				// The second parameter specifies the style to be loaded.
+				var Loader = new Loader('../../', 'Default');
+				
+				// Loading optional library modules.
+				//Loader.addModules(['kanban', 'contentEditable', 'math', 'charts', 'nodes', 'canvas2D']); // Liste de tous les modules disponibles
+				Loader.addModules(['kanban', 'nodes', 'canvas2D']);
+				
+				// Here we declare the additional static resources to be loaded by the Loader.
+				Loader.addScript('js/QuickCodeHTMLPanel.js', 'quickCodeHTMLPanel');
+				Loader.addScript('js/QuickCodeCSSPanel.js', 'quickCodeCSSPanel');
+				Loader.addScript('js/QuickCodeJSPanel.js', 'quickCodeJSPanel');
+				Loader.addScript('js/QuickCodeJanusJSPanel.js', 'quickCodeJanusJSPanel');
+				Loader.addComponent('css/codePopup.css', 'js/CodePopup.js', 'codePopup');
+				Loader.addComponent('css/htmlCodePopup.css', 'js/HTMLcodePopup.js', 'htmlCodePopup');
+				
+				// Redefining the this.onload function
+				// It will be triggered when the framework and the additional resources declared above are loaded.
+				Loader.onload = function()
+				{ 
+					// Application code
+					// Usually a simple entry point
+					
+					document.getElementById('screen').innerHTML = '';
+					
+					notifCenter = new NotificationsManager();
+					document.getElementById('main').appendChild(notifCenter);
+					
+					/////////////////
+					//// Onglets ////
+					/////////////////
+					
+					tabManager = new TabManager();
+					tabManager.setEditMode(false);
+					document.getElementById('main').appendChild(tabManager);
+					
+					var htmlTab = new Tab('HTML', new QuickCodeHTMLPanel());
+					tabManager.addTab(htmlTab);
+					
+					var cssTab = new Tab('CSS', new QuickCodeCSSPanel());
+					tabManager.addTab(cssTab);
+					
+					var jsTab = new Tab('Javascript (Vanilla)', new QuickCodeJSPanel());
+					tabManager.addTab(jsTab);
+					
+					var janusjsTab = new Tab('Peguy JS', new QuickCodeJanusJSPanel());
+					tabManager.addTab(janusjsTab);
+				};
+				
+				// The framework is loaded when the HTML page hosting the application has finished loading.
+				window.onload = function() { Loader.load(); }; 
+	
+			</script>
+			
+		</body>
+	</html>
