@@ -374,7 +374,7 @@ function CodeEditor($language)
 
     this.highlight = function()
     {
-        if (typeof hljs !== 'undefined' && utils.isset(hljs) && ((!utils.isset(selection)) || (selection.startOffset === selection.endOffset && selection.startContainer === selection.endContainer)))
+        if (utils.isset(hljs) && ((!utils.isset(selection)) || (selection.startOffset === selection.endOffset && selection.startContainer === selection.endContainer)))
         {
 			component.getById('editor').setAttribute('class', 'editor ' + language);
             $this.saveCaretPosition();
@@ -587,14 +587,16 @@ function CodeEditor($language)
 		if (utils.isset(selection))
 		{
 			$this.restoreSelection(selection);
-			document.execCommand('insertHTML', true, $code.replaceAll('&', '&amp;') + detectCaretStr);	
+			document.execCommand('insertHTML', true, $code.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;') + detectCaretStr);	
 			scrollY = component.getById('editor').scrollTop;	
 			$this.updateCode();
 			$this.restoreCaret(true);
 		}
 		else
 		{
-			component.getById('editor').appendChild(document.createTextNode($code.replaceAll('&', '&amp;')));
+			var block = document.createElement('span');
+			block.innerHTML = $code.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
+			component.getById('editor').appendChild(block);
 			scrollY = component.getById('editor').scrollTop;
 		}
 
@@ -855,7 +857,7 @@ function CodeEditor($language)
 	this.setCode = function($code)
 	{
 		codeContent = $code;
-		component.getById('editor').innerHTML = codeContent.replaceAll('&', '&amp;');
+		component.getById('editor').innerHTML = codeContent.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
 		$this.highlight();
 	};
 
