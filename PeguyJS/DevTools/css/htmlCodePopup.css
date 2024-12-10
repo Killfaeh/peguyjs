@@ -1,0 +1,65 @@
+.code-popup-html .popupContent
+{
+	position: absolute;
+	left: 100px;
+	right: 100px;
+	top: 100px;
+	bottom: 100px;
+}
+
+.code-popup-html .popupContent h2
+{
+	position: absolute;
+	left: 30px;
+	right: 30px;
+	top: 30px;
+}
+
+.code-popup-html .htmlTitle,
+.code-popup-html .cssTitle
+{
+	position: absolute;
+	left: 30px;
+	right: 30px;
+	top: 75px;
+	padding: 0px;
+	margin: 0px;
+	text-align: left;
+}
+
+.code-popup-html .htmlTitle { right: calc(50% + 15px); }
+.code-popup-html .cssTitle { left: calc(50% + 15px); }
+
+.code-popup-html .code-block-html,
+.code-popup-html .code-block-css
+{
+	position: absolute;
+	left: 30px;
+	right: 30px;
+	top: 105px;
+	bottom: 60px;
+	padding: 20px;
+	text-align: left;
+	border: solid 1px rgb(128, 128, 128);
+	border-radius: 5px;
+	background-color: rgb(255, 255, 255);
+	box-shadow: inset 1px 1px 5px rgba(0, 0, 0, 0.2);
+	overflow: auto;
+	font-family: monospace;
+}
+
+.code-popup-html .code-block-html { right: calc(50% + 15px); }
+.code-popup-html .code-block-css { left: calc(50% + 15px); }
+
+.code-popup-html .copyHTMLicon,
+.code-popup-html .copyCSSicon
+{
+	position: absolute;
+	right: 30px;
+	bottom: 30px;
+	width: 22px;
+	height: 22px;
+	cursor: pointer;
+}
+
+.code-popup-html .copyHTMLicon { right: calc(50% + 15px); }

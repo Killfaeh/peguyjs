@@ -1,0 +1,65 @@
+.code-popup-component .popupContent
+{
+	position: absolute;
+	left: 100px;
+	right: 100px;
+	top: 100px;
+	bottom: 100px;
+}
+
+.code-popup-component .popupContent h2
+{
+	position: absolute;
+	left: 30px;
+	right: 30px;
+	top: 30px;
+}
+
+.code-popup-component .htmlTitle,
+.code-popup-component .cssTitle
+{
+	position: absolute;
+	left: 30px;
+	right: 30px;
+	top: 75px;
+	padding: 0px;
+	margin: 0px;
+	text-align: left;
+}
+
+.code-popup-component .htmlTitle { right: calc(50% + 15px); }
+.code-popup-component .cssTitle { left: calc(50% + 15px); }
+
+.code-popup-component .code-block-html,
+.code-popup-component .code-block-css
+{
+	position: absolute;
+	left: 30px;
+	right: 30px;
+	top: 105px;
+	bottom: 60px;
+	padding: 20px;
+	text-align: left;
+	border: solid 1px rgb(128, 128, 128);
+	border-radius: 5px;
+	background-color: rgb(255, 255, 255);
+	box-shadow: inset 1px 1px 5px rgba(0, 0, 0, 0.2);
+	overflow: auto;
+	font-family: monospace;
+}
+
+.code-popup-component .code-block-html { right: calc(50% + 15px); }
+.code-popup-component .code-block-css { left: calc(50% + 15px); }
+
+.code-popup-component .copyHTMLicon,
+.code-popup-component .copyCSSicon
+{
+	position: absolute;
+	right: 30px;
+	bottom: 30px;
+	width: 22px;
+	height: 22px;
+	cursor: pointer;
+}
+
+.code-popup-component .copyHTMLicon { right: calc(50% + 15px); }

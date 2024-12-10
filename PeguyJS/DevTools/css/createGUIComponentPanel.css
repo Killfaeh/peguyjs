@@ -1,0 +1,335 @@
+.createGUIComponentPanel
+{
+	position: absolute;
+	left: 0px;
+	right: 0px;
+	top: 0px;
+	bottom: 0px;
+}
+
+.createGUIComponentPanel .settingsPanel
+{
+	position: absolute;
+	left: 10px;
+	right: calc(50% + 7px);
+	/*width: 500px;*/
+	top: 10px;
+	bottom: 10px;
+	border: 1px solid rgb(223, 223, 233);
+	padding: 10px;
+	overflow: auto;
+}
+
+.createGUIComponentPanel .settingsPanel h4
+{
+	font-size: 1.3em;
+	margin: 0px;
+	margin-bottom: 20px;
+}
+
+.createGUIComponentPanel .settingsPanel h4 *
+{
+	display: inline-block;
+	vertical-align: middle;
+	margin: 3px;
+}
+
+.createGUIComponentPanel .settingsPanel h4 svg { cursor: pointer; }
+
+.createGUIComponentPanel .settingsPanel h5
+{
+	font-size: 1.1em;
+	margin: 5px;
+	margin-bottom: 20px;
+	text-align: left;
+}
+
+.createGUIComponentPanel .settingsPanel table
+{
+	width: 100%;
+}
+
+.createGUIComponentPanel .settingsPanel table th
+{
+	text-align: left;
+	padding: 10px;
+	padding-top: 40px;
+}
+
+.createGUIComponentPanel .settingsPanel .accordionPanel
+{
+	height: calc(100vh - 345px);
+	padding-left: 20px;
+	padding-right: 20px;
+	overflow: auto;
+	position: relative;
+}
+
+.createGUIComponentPanel .settingsPanel input
+{
+	font-size: 0.9em;
+}
+
+.createGUIComponentPanel .settingsPanel .attributes,
+.createGUIComponentPanel .settingsPanel .methods
+{
+	padding: 0px;
+	border: solid 1px rgb(223, 223, 223);
+	border-bottom: none;
+}
+
+/*.createGUIComponentPanel .settingsPanel .attributes .list-label,
+.createGUIComponentPanel .settingsPanel .methods .list-label
+{
+	white-space: nowrap;
+}*/
+
+.createGUIComponentPanel .settingsPanel .attributes .list-label
+{
+	white-space: nowrap;
+}
+
+.createGUIComponentPanel .settingsPanel .attributes .list-label > div
+{
+	display: inline-block;
+	width: 28%;
+	text-align: center;
+}
+
+.createGUIComponentPanel .settingsPanel .methods .list-label > div
+{
+	display: inline-block;
+	width: 45.65%;
+	text-align: center;
+}
+
+.createGUIComponentPanel .settingsPanel .methods .list-label .paramList
+{
+	width: 100%;
+	text-align: left;
+}
+
+.createGUIComponentPanel .settingsPanel .methods .list-label .addParam
+{
+	width: 100%;
+	text-align: right;
+}
+
+.createGUIComponentPanel .settingsPanel .methods .list-label .addParam span
+{
+	cursor: pointer;
+}
+
+.createGUIComponentPanel .settingsPanel .attributes input,
+.createGUIComponentPanel .settingsPanel .methods input
+{
+	font-size: 0.9em;
+}
+
+.createGUIComponentPanel .settingsPanel .attributes input
+{
+	font-size: 0.9em;
+	/*
+	min-width: 50px;
+	max-width: 50px;
+	*/
+}
+
+.createGUIComponentPanel .settingsPanel .attributes svg,
+.createGUIComponentPanel .settingsPanel .methods svg
+{
+	cursor: pointer;
+}
+
+.createGUIComponentPanel .settingsPanel .accordionPanel .treePanel,
+.createGUIComponentPanel .settingsPanel .accordionPanel .propertiesPanel
+{
+	position: absolute;
+	top: 10px;
+	bottom: 0px;
+}
+
+.createGUIComponentPanel .settingsPanel .accordionPanel .treePanel
+{
+	left: 5px;
+	right: calc(50% + 7px);
+	border: 1px rgb(223, 223, 223) solid;
+}
+
+.createGUIComponentPanel .settingsPanel .accordionPanel .treePanel .treeBlock
+{
+	position: absolute;
+	left: 0px;
+	right: 0px;
+	top: 0px;
+	bottom: 40px;
+}
+
+.createGUIComponentPanel .settingsPanel .accordionPanel .treePanel .treeBlock li { list-style-type: none; }
+
+.createGUIComponentPanel .settingsPanel .accordionPanel .treePanel .treeBlock li .label-block { position: relative; }
+
+.createGUIComponentPanel .settingsPanel .accordionPanel .treePanel .treeBlock li .label, 
+.createGUIComponentPanel .settingsPanel .accordionPanel .treePanel .treeBlock li svg
+{
+	vertical-align: middle;
+	margin-left: 5px;
+	cursor: pointer;
+}
+
+.createGUIComponentPanel .settingsPanel .accordionPanel .treePanel .treeBlock li .label { cursor: pointer; }
+
+.createGUIComponentPanel .settingsPanel .accordionPanel .treePanel .treeBlock .element-label
+{
+	min-height: 20px;
+	height: 20px;
+}
+
+.createGUIComponentPanel .settingsPanel .accordionPanel .treePanel .treeBlock .selected > .element-label
+{
+	border: 1px solid rgb(220, 220, 220);
+	background-color: rgba(0, 0, 0, 0.1);
+	/*padding: 5px;
+	padding-left: 23px;
+	position: relative;
+	left: -23px;*/
+}
+
+.createGUIComponentPanel .settingsPanel .accordionPanel .treePanel .treeBlock .buttons
+{
+	margin-left: 5px;
+}
+
+.createGUIComponentPanel .settingsPanel .accordionPanel .treePanel .treeBlock li .mask { display: none; }
+
+.createGUIComponentPanel .settingsPanel .accordionPanel .treePanel .nodeTreeButtonsPanel
+{
+	position: absolute;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+}
+
+.createGUIComponentPanel .settingsPanel .accordionPanel .propertiesPanel
+{
+	left: calc(50% + 7px);
+	right: 5px;
+}
+
+.createGUIComponentPanel .settingsPanel .accordionPanel .propertiesPanel .attributesPanel,
+.createGUIComponentPanel .settingsPanel .accordionPanel .propertiesPanel > .cssPropertiesPanel
+{
+	position: absolute;
+	left: 0px;
+	right: 0px;
+	border: 1px rgb(223, 223, 223) solid;
+	overflow: auto;
+}
+.createGUIComponentPanel .settingsPanel .accordionPanel .propertiesPanel .attributesPanel
+{
+	top: 0px;
+	bottom: calc(50% + 7px);
+}
+
+.createGUIComponentPanel .settingsPanel .accordionPanel .propertiesPanel > .cssPropertiesPanel
+{
+	top: calc(50% + 7px);
+	bottom: 0px;
+}
+
+.createGUIComponentPanel .settingsPanel .accordionPanel .propertiesPanel .attributesPanel .htmlAttributesPanel .list,
+.createGUIComponentPanel .settingsPanel .accordionPanel .propertiesPanel .cssPropertiesPanel .cssPropertiesPanel .list
+{
+	border: 1px solid rgb(223, 223, 233);
+	border-bottom: none;
+	padding: 0px;
+}
+
+.cre.createGUIComponentPanel .settingsPanel .accordionPanel .propertiesPanel .attributesPanel .htmlAttributesPanel .list .list-label,
+.createGUIComponentPanel .settingsPanel .accordionPanel .propertiesPanel .cssPropertiesPanel .cssPropertiesPanel .list .list-label
+{
+	white-space: nowrap;
+}
+
+.createGUIComponentPanel .settingsPanel .accordionPanel .propertiesPanel .attributesPanel .htmlAttributesPanel .list .list-label > div,
+.createGUIComponentPanel .settingsPanel .accordionPanel .propertiesPanel .cssPropertiesPanel .cssPropertiesPanel .list .list-label > div
+{
+	display: inline-block;
+	width: 45%;
+	text-align: center;
+}
+
+.createGUIComponentPanel .settingsPanel .accordionPanel .propertiesPanel .attributesPanel .htmlAttributesPanel .list .list-label > div input,
+.createGUIComponentPanel .settingsPanel .accordionPanel .propertiesPanel .cssPropertiesPanel .cssPropertiesPanel .list .list-label > div input
+{
+	width: calc(100% - 34px) !important;
+	font-size: 0.9em;
+}
+
+.createGUIComponentPanel .settingsPanel .accordionPanel .propertiesPanel .attributesPanel .htmlAttributesPanel .list svg,
+.createGUIComponentPanel .settingsPanel .accordionPanel .propertiesPanel .cssPropertiesPanel .cssPropertiesPanel .list svg
+{
+	cursor: pointer;
+}
+
+.createGUIComponentPanel .settingsPanel .accordionPanel .propertiesPanel .attributesPanel .htmlAttributesPanel textarea
+{
+	resize: none;
+	width: calc(100% - 24px);
+	height: 100px;
+}
+
+.createGUIComponentPanel .settingsPanel .accordionPanel .propertiesPanel .attributesPanel .htmlAttributesPanel .componentVariableName
+{
+	width: calc(100% - 48px);
+	font-size: 0.9em;
+	margin-top: 0px;
+	margin-bottom: 20px;
+}
+
+.createGUIComponentPanel .rightPanel
+{
+	position: absolute;
+	left: calc(50% + 7px);
+	right: 10px;
+	top: 10px;
+	bottom: 10px;
+}
+
+.createGUIComponentPanel .rightPanel .previewPanel
+{
+	position: absolute;
+	left: 0px;
+	right: 0px;
+	top: 0px;
+	bottom: 77px;
+	text-align: center;
+	border: solid 1px rgb(223, 223, 223);
+	padding: 0px;
+	overflow: auto;
+}
+
+.createGUIComponentPanel .rightPanel .buttonsPanel
+{
+	position: absolute;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	height: 40px;
+	padding: 10px;
+	overflow: hidden;
+	text-align: center;
+	border: solid 1px rgb(223, 223, 223);
+}
+
+.createGUIComponentPanel .htmlFrame
+{
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
+    width: 100%;
+    height: 100%;
+	border: none;
+}

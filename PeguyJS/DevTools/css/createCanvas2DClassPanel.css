@@ -1,0 +1,138 @@
+.createCanvas2DClassPanel
+{
+	position: absolute;
+	left: 0px;
+	right: 0px;
+	top: 0px;
+	bottom: 0px;
+}
+
+.createCanvas2DClassPanel .settingsPanel
+{
+	position: absolute;
+	left: 10px;
+	right: calc(50% + 7px);
+	top: 10px;
+	bottom: 10px;
+	border: 1px solid rgb(223, 223, 233);
+	padding: 20px;
+	overflow: auto;
+}
+
+.createCanvas2DClassPanel .settingsPanel h4
+{
+	font-size: 1.3em;
+	margin: 0px;
+	margin-bottom: 20px;
+}
+
+.createCanvas2DClassPanel .settingsPanel h4 *
+{
+	display: inline-block;
+	vertical-align: middle;
+	margin: 3px;
+}
+
+.createClassPanel .settingsPanel h4 svg { cursor: pointer; }
+
+.createCanvas2DClassPanel .settingsPanel table
+{
+	width: 100%;
+}
+
+.createCanvas2DClassPanel .settingsPanel table th
+{
+	text-align: left;
+	padding: 10px;
+	padding-top: 40px;
+}
+
+.createCanvas2DClassPanel .settingsPanel input
+{
+	font-size: 0.9em;
+}
+
+.createCanvas2DClassPanel .settingsPanel .attributes,
+.createCanvas2DClassPanel .settingsPanel .methods
+{
+	padding: 0px;
+	border: solid 1px rgb(223, 223, 223);
+	border-bottom: none;
+}
+
+.createCanvas2DClassPanel .settingsPanel .attributes .list-label,
+.createCanvas2DClassPanel .settingsPanel .methods .list-label
+{
+	white-space: nowrap;
+}
+
+.createCanvas2DClassPanel .settingsPanel .attributes .list-label > div
+{
+	display: inline-block;
+	width: 28%;
+	text-align: center;
+}
+
+.createCanvas2DClassPanel .settingsPanel .methods .list-label > div
+{
+	display: inline-block;
+	width: 45.65%;
+	text-align: center;
+}
+
+.createCanvas2DClassPanel .settingsPanel .attributes input,
+.createCanvas2DClassPanel .settingsPanel .methods input
+{
+	font-size: 0.9em;
+}
+
+.createCanvas2DClassPanel .settingsPanel .attributes svg,
+.createCanvas2DClassPanel .settingsPanel .methods svg
+{
+	cursor: pointer;
+}
+
+.createCanvas2DClassPanel .codePanel
+{
+	position: absolute;
+	left: calc(50% + 7px);
+	right: 10px;
+	top: 10px;
+	bottom: 10px;
+	border: 1px solid rgb(223, 223, 233);
+}
+
+.createCanvas2DClassPanel .codePanel .code-block
+{
+	position: absolute;
+	left: 20px;
+	right: 20px;
+	top: 20px;
+	bottom: 60px;
+	padding: 20px;
+	text-align: left;
+	border: solid 1px rgb(128, 128, 128);
+	border-radius: 5px;
+	background-color: rgb(255, 255, 255);
+	box-shadow: inset 1px 1px 5px rgba(0, 0, 0, 0.2);
+	overflow: auto;
+	font-family: monospace;
+}
+
+.createCanvas2DClassPanel .codePanel .buttons
+{
+	position: absolute;
+	left: 20px;
+	bottom: 10px;
+	text-align: left;
+}
+
+.createCanvas2DClassPanel .codePanel .copyIcon
+{
+	position: absolute;
+	right: 35px;
+	bottom: 25px;
+	width: 22px;
+	height: 22px;
+	cursor: pointer;
+}

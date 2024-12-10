@@ -1,0 +1,96 @@
+.toQuickCodePanel
+{
+	position: absolute;
+	left: 0px;
+	right: 0px;
+	top: 0px;
+	bottom: 0px;
+}
+
+.toQuickCodePanel .leftPanel, .toQuickCodePanel .rightPanel
+{
+	position: absolute;
+	top: 0px;
+	bottom: 0px;
+}
+
+.toQuickCodePanel .leftPanel
+{
+	left: 0px;
+	right: 50%;
+}
+
+.toQuickCodePanel .rightPanel
+{
+	left: 50%;
+	right: 0px;
+}
+
+.toQuickCodePanel .topPanel
+{
+	bottom: calc(50% + 7px);
+}
+
+.toQuickCodePanel .bottomPanel
+{
+	top: calc(50% + 7px);
+}
+
+.toQuickCodePanel h4
+{
+	font-size: 1.3em;
+	margin: 0px;
+	margin-bottom: 20px;
+}
+
+.toQuickCodePanel table
+{
+	width: 60%;
+	margin: auto;
+}
+
+.toQuickCodePanel .code-block
+{
+	position: absolute;
+	left: 20px;
+	right: 20px;
+	top: 45px;
+	bottom: 60px;
+	padding: 20px;
+	text-align: left;
+	border: solid 1px rgb(128, 128, 128);
+	border-radius: 5px;
+	background-color: rgb(255, 255, 255);
+	box-shadow: inset 1px 1px 5px rgba(0, 0, 0, 0.2);
+	overflow: auto;
+	font-family: monospace;
+}
+
+.toQuickCodePanel .code-block textarea
+{
+	position: absolute;
+	left: 20px;
+	right: 20px;
+	top: 20px;
+	bottom: 20px;
+	border: none;
+	resize: none;
+}
+
+.toQuickCodePanel .original-code-block
+{
+	left: 20px;
+	right: 20px;
+	top: 130px;
+	bottom: 20px;
+}
+
+.toQuickCodePanel .copyIcon
+{
+	position: absolute;
+	right: 35px;
+	bottom: 25px;
+	width: 22px;
+	height: 22px;
+	cursor: pointer;
+}

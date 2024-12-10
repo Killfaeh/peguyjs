@@ -1,0 +1,160 @@
+.createClassPanel
+{
+	position: absolute;
+	left: 0px;
+	right: 0px;
+	top: 0px;
+	bottom: 0px;
+}
+
+.createClassPanel .settingsPanel
+{
+	position: absolute;
+	left: 10px;
+	right: calc(50% + 7px);
+	top: 10px;
+	bottom: 10px;
+	border: 1px solid rgb(223, 223, 233);
+	padding: 20px;
+	overflow: auto;
+}
+
+.createClassPanel .settingsPanel h4
+{
+	font-size: 1.3em;
+	margin: 0px;
+	margin-bottom: 20px;
+}
+
+.createClassPanel .settingsPanel h4 *
+{
+	display: inline-block;
+	vertical-align: middle;
+	margin: 3px;
+}
+
+.createClassPanel .settingsPanel h4 svg { cursor: pointer; }
+
+.createClassPanel .settingsPanel table
+{
+	width: 100%;
+}
+
+.createClassPanel .settingsPanel table th
+{
+	text-align: left;
+	padding: 10px;
+	padding-top: 40px;
+}
+
+.createClassPanel .settingsPanel input
+{
+	font-size: 0.9em;
+}
+
+.createClassPanel .settingsPanel .attributes,
+.createClassPanel .settingsPanel .methods
+{
+	padding: 0px;
+	border: solid 1px rgb(223, 223, 223);
+	border-bottom: none;
+}
+
+/*.createClassPanel .settingsPanel .attributes .list-label,
+.createClassPanel .settingsPanel .methods .list-label
+{
+	white-space: nowrap;
+}*/
+
+.createClassPanel .settingsPanel .attributes .list-label
+{
+	white-space: nowrap;
+}
+
+.createClassPanel .settingsPanel .attributes .list-label > div
+{
+	display: inline-block;
+	width: 28%;
+	text-align: center;
+}
+
+.createClassPanel .settingsPanel .methods .list-label > div
+{
+	display: inline-block;
+	width: 45.65%;
+	text-align: center;
+}
+
+.createClassPanel .settingsPanel .methods .list-label .paramList
+{
+	width: 100%;
+	text-align: left;
+}
+
+.createClassPanel .settingsPanel .methods .list-label .addParam
+{
+	width: 100%;
+	text-align: right;
+}
+
+.createClassPanel .settingsPanel .methods .list-label .addParam span
+{
+	cursor: pointer;
+}
+
+.createClassPanel .settingsPanel .attributes input,
+.createClassPanel .settingsPanel .methods input
+{
+	font-size: 0.9em;
+}
+
+.createClassPanel .settingsPanel .attributes svg,
+.createClassPanel .settingsPanel .methods svg
+{
+	cursor: pointer;
+}
+
+.createClassPanel .codePanel
+{
+	position: absolute;
+	left: calc(50% + 7px);
+	right: 10px;
+	top: 10px;
+	bottom: 10px;
+	border: 1px solid rgb(223, 223, 233);
+}
+
+.createClassPanel .codePanel .code-block
+{
+	position: absolute;
+	left: 20px;
+	right: 20px;
+	top: 20px;
+	bottom: 60px;
+	padding: 20px;
+	text-align: left;
+	border: solid 1px rgb(128, 128, 128);
+	border-radius: 5px;
+	background-color: rgb(255, 255, 255);
+	box-shadow: inset 1px 1px 5px rgba(0, 0, 0, 0.2);
+	overflow: auto;
+	font-family: monospace;
+}
+
+.createClassPanel .codePanel .buttons
+{
+	position: absolute;
+	left: 20px;
+	bottom: 10px;
+	text-align: left;
+}
+
+.createClassPanel .codePanel .copyIcon
+{
+	position: absolute;
+	right: 35px;
+	bottom: 25px;
+	width: 22px;
+	height: 22px;
+	cursor: pointer;
+}
