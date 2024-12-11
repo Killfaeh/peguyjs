@@ -34,6 +34,14 @@ var Events =
 	////////////////////////////
 	//// Gestion du clavier ////
 	////////////////////////////
+
+	// Key codes
+	// A => 65, E => 69, I => 73, M => 77, Q => 81, U => 85, Z => 90
+	// escape => 27, enter => 13, tab => 9, space => 32, back => 8, suppr => 46
+	// left => 37, right => 39, up => 38, down => 40
+	// Modifiers Mac : shift => 16, ctrl => 17, alt => 18, cmd (left) => 91, cmd (right) => 93, caps lock => 20
+	// Modifiers Windows : shift => 16, ctrl => 17, alt => 18, cmd (left) => 91, cmd (right) => 92, caps lock => 20
+	// Modifiers Linux : shift => 16, ctrl => 17, alt (left) => 18, alt (right) => 225, cmd (left) => 91?, cmd (right) => 92, caps lock => 20
 	
 	keyPressTable: {},
 	keyLastPressTable: {},
@@ -47,6 +55,29 @@ var Events =
 		if (window.event)
 			$event = window.event;
 
+		// Capturer le noeud déclencheur
+		var catchNode = $event.targetNode();
+		var catchNodeTagName = catchNode.tagName.toLowerCase();
+
+		// Raccourcis standards
+		var standardShortcuts = {};
+		standardShortcuts[65] = Events.selectAll;
+		standardShortcuts[67] = Events.copy;
+		standardShortcuts[88] = Events.cut;
+		standardShortcuts[86] = Events.paste;
+		standardShortcuts[90] = Events.undo;
+		standardShortcuts[83] = Events.save;
+		standardShortcuts[87] = Events.close;
+
+		var standardShortcutsShift = {};
+		//standardShortcutsShift[65] = Events.selectAll;
+		//standardShortcutsShift[67] = Events.copy;
+		//standardShortcutsShift[88] = Events.cut;
+		//standardShortcutsShift[86] = Events.paste;
+		standardShortcutsShift[90] = Events.redo;
+		standardShortcutsShift[83] = Events.saveAs;
+		//standardShortcutsShift[87] = Events.close;
+
 		var shortcutModifier = false;
 
 		Events.keyLastPressTable[$event.keyCode] = new Date();
@@ -59,20 +90,13 @@ var Events =
 			{
 				setTimeout(function()
 				{
-					//console.log("CHECK KEYDOWN");
-
 					var now = new Date();
-					//console.log('Now : ' + now.getTime());
 
 					for (key in Events.keyLastPressTable)
 					{
 						if (key !== 'cmd' && key !== 91 && key !== 93 && key !== '91' && key !== '93')
 						{
 							var date = Events.keyLastPressTable[key];
-
-							//console.log('Key : ' + key);
-							//console.log('Last press : ' + date.getTime());
-							//console.log('Delta : ' + (now.getTime() - date.getTime()));
 
 							if (now.getTime() - date.getTime() >= 550 && Events.keyPressTable[key] === true)
 							{
@@ -94,7 +118,7 @@ var Events =
 
 		if (!utils.isset(Events.keyPressTable[$event.keyCode]) || Events.keyPressTable[$event.keyCode] === false)
 		{
-			//console.log("KEY DOWN : " + $event.keyCode);
+			console.log("KEY DOWN : " + $event.keyCode);
 			//console.log($event);
 			
 			Events.keyPressTable[$event.keyCode] = true;
@@ -111,49 +135,32 @@ var Events =
 				Events.keyPressTable['cmd'] = true;
 			
 			if ($event.key === Debug.consoleKey)
-				Debug.console.display();
+				Debug.console.display();			
 			
 			if (shortcutModifier === true)
 			{
-				Events.keyPressTable['cmd'] = true;
+				if (/mac os x/.test(navigator.userAgent.toLowerCase().replace(" ", "")) || /macosx/.test(navigator.userAgent.toLowerCase().replace(" ", "")))
+					Events.keyPressTable['cmd'] = true;
 
-				if ($event.keyCode === 90) // Z
+				if ($event.shiftKey === true && utils.isset(standardShortcutsShift[$event.keyCode]) && standardShortcutsShift[$event.keyCode] !== doNothing)
 				{
-					if ($event.shiftKey === true)
-					{
-						if (Events.redo !== doNothing)
-						{
-							Events.preventDefault($event);
-							Events.stopPropagation($event);
-							Events.redo();
-						}
-					}
-					else
-					{
-						if (Events.undo !== doNothing)
-						{
-							Events.preventDefault($event);
-							Events.stopPropagation($event);
-							Events.undo();
-						}
-					}
+					Events.preventDefault($event);
+					Events.stopPropagation($event);
+					standardShortcutsShift[$event.keyCode]();
 				}
+				else if ($event.shiftKey !== true && utils.isset(standardShortcuts[$event.keyCode]) && standardShortcuts[$event.keyCode] !== doNothing)
+				{
+					Events.preventDefault($event);
+					Events.stopPropagation($event);
+					standardShortcuts[$event.keyCode]();
+				}
+				else if ($event.keyCode == 13 || $event.keyCode == 27 || (catchNodeTagName !== 'input' && catchNodeTagName !== 'textarea'))
+					Components.onKeyDown($event);
 			}
-			
-			Components.onKeyDown($event);
-			
-			/*
-			setTimeout(function()
-			{
-				if ($event.metaKey === true)
-				{
-					Events.keyPressTable = {};
-				}
-				
-			}, 100);
-			//*/
+			else if ($event.keyCode == 13 || $event.keyCode == 27 || (catchNodeTagName !== 'input' && catchNodeTagName !== 'textarea'))
+				Components.onKeyDown($event);
 		}
-		else if (Events.keyPressTable['ctrl'] === true || $event.metaKey === true)
+		else if (Events.keyPressTable['ctrl'] === true || Events.keyPressTable['cmd'] === true || $event.metaKey === true)
 		{
 			Events.preventDefault($event);
 			Events.stopPropagation($event);
@@ -165,14 +172,19 @@ var Events =
 		if (window.event)
 			$event = window.event;
 		
+		// Capturer le noeud déclencheur
+		var catchNode = null;
+		var catchNodeTagName = null;
+
+		if (utils.isset($event.targetNode))
+		{
+			catchNode = $event.targetNode();
+			catchNodeTagName = catchNode.tagName.toLowerCase();
+		}
+
 		if (utils.isset(Events.keyPressTable[$event.keyCode]) && Events.keyPressTable[$event.keyCode] === true)
 		{
-			//console.log("KEY UP : " + $event.keyCode);
-
-			var shortcutModifier = Events.keyPressTable['ctrl'];
-		
-			if (/mac os x/.test(navigator.userAgent.toLowerCase().replace(" ", "")) || /macosx/.test(navigator.userAgent.toLowerCase().replace(" ", "")))
-				shortcutModifier = $event.metaKey;
+			console.log("KEY UP : " + $event.keyCode);
 			
 			Events.keyPressTable[$event.keyCode] = false;
 			
@@ -187,17 +199,10 @@ var Events =
 			else if ($event.keyCode == 93)
 				Events.keyPressTable['cmd'] = false;
 			else if ($event.key === "Meta")
-			{
 				Events.keyPressTable['cmd'] = false;
-				//Events.keyPressTable = {};
-			}
 			
-			Components.onKeyUp($event);
-		}
-		else if (Events.keyPressTable['ctrl'] === true || $event.key === "Meta")
-		{
-			Events.preventDefault($event);
-			Events.stopPropagation($event);
+			if ($event.keyCode == 13 || $event.keyCode == 27 || (catchNodeTagName !== 'input' && catchNodeTagName !== 'textarea'))
+				Components.onKeyUp($event);
 		}
 	},
 	
@@ -285,7 +290,6 @@ var Events =
 		var manageEvent = false;
 		
 		// Capturer le noeud déclencheur
-		
 		var catchNode = $event.targetNode();
 		var catchNodeTagName = catchNode.tagName.toLowerCase();
 		
@@ -522,16 +526,28 @@ var Events =
 		document.getElementById('main').onDrop = new Array();
 		document.getElementById('main').onContextMenu = new Array();
 		window.onBlur = new Array();
+		window.onFocus = new Array();
 		
 		window.onblur = function($event)
 		{
-			console.log($event);
+			//console.log($event);
 
 			Events.keyPressTable = {};
 			Events.keyLastPressTable = {};
 
 			for (var i = 0; i < window.onBlur.length; i++)
 				window.onBlur[i]($event);
+		};
+
+		window.onfocus = function($event)
+		{
+			//console.log($event);
+
+			Events.keyPressTable = {};
+			Events.keyLastPressTable = {};
+
+			for (var i = 0; i < window.onFocus.length; i++)
+				window.onFocus[i]($event);
 		};
 
 		window.onresize = function() { Events.resize(); };
@@ -597,12 +613,19 @@ var Events =
 	
 	unconnectAll: function() { Events.signals = {}; },
 	
-	//////////////////////////
-	//// Annuler/rétablir ////
-	//////////////////////////
+	////////////////////////////
+	//// Actions génériques ////
+	////////////////////////////
 	
+	selectAll: doNothing,
+	copy: doNothing,
+	cut: doNothing,
+	paste: doNothing,
 	undo: doNothing,
-	redo: doNothing
+	redo: doNothing,
+	save: doNothing,
+	saveAs: doNothing,
+	close: doNothing
 };
 
 if (Loader !== null && Loader !== undefined)
