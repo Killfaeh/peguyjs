@@ -8,4 +8,6 @@ It provides a set of ready-to-use components and allows you to create your own.
 
 ## Installation
 
+Duplicate this paragraph into wiki
+
 ## Live demos
